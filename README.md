@@ -1,2 +1,1 @@
-# VulnFlask - Secure DevSecOps E-commerce App
-Renamed to vulnflask-secureci
+# VulnFlask-SecureCI A full DevSecOps pipeline demo
