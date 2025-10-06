@@ -1,11 +1,8 @@
-import os
-import sys
+from unittest.mock import MagicMock, patch
 
 import pytest
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-from app.app import app  # noqa: E402
+from app.app import app
 
 
 @pytest.fixture
@@ -15,5 +12,12 @@ def client():
 
 
 def test_index_route(client):
-    response = client.get("/")
-    assert response.status_code == 200
+    with patch("sqlite3.connect", autospec=True) as mock_connect:
+        mock_conn = MagicMock()
+        mock_cursor = MagicMock()
+        mock_connect.return_value = mock_conn
+        mock_conn.cursor.return_value = mock_cursor
+        mock_cursor.execute.return_value.fetchall.return_value = []
+
+        response = client.get("/")
+        assert response.status_code == 200
