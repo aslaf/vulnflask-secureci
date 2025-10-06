@@ -1,0 +1,10 @@
+<!doctype html>
+<html><body>
+<h2>Search: {{q}}</h2>
+<ul>
+{% for p in products %}
+<li>{{p['name']}} - {{p['description']|safe}}</li>
+{% endfor %}
+</ul>
+<a href="/">Back</a>
+</body></html>
