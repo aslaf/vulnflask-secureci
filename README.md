@@ -1,1 +1,1 @@
-# VulnFlask-SecureCI A full DevSecOps pipeline demo
+# VulnFlask-SecureCI: A full DevSecOps pipeline demo
