@@ -1,0 +1,30 @@
+# threat_model/threats.yml
+metadata:
+  owner: Aslaf Shaikh
+  system: VulnFlask-SecureCI
+  last_review: 2025-10-05
+
+threats:
+  - id: T001
+    title: SQL Injection in Search Endpoint
+    category: Injection
+    stride: Tampering
+    risk: High
+    status: Open
+    mitigation: Use parameterized queries and input validation.
+
+  - id: T002
+    title: Hardcoded Credentials in Config
+    category: Secrets Management
+    stride: Information Disclosure
+    risk: Critical
+    status: Mitigated
+    mitigation: Store secrets in AWS Secrets Manager or GitHub Actions secrets.
+
+  - id: T003
+    title: Missing CSRF Token on Forms
+    category: AuthZ/AuthN
+    stride: Repudiation
+    risk: Medium
+    status: Open
+    mitigation: Implement Flask-WTF CSRF middleware.
