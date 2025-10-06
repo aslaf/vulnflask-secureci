@@ -1,7 +1,7 @@
-# VulnFlask-SecureCI  
+# VulnFlask-SecureCI
 ### A Full DevSecOps Pipeline for a Vulnerable Flask E-commerce App
 
-VulnFlask-SecureCI is an educational project that demonstrates how to build a **secure, automated CI/CD pipeline** around an intentionally vulnerable Python Flask application.  
+VulnFlask-SecureCI is an educational project that demonstrates how to build a **secure, automated CI/CD pipeline** around an intentionally vulnerable Python Flask application.
 The goal is to learn **AppSec, DevSecOps, and threat modeling** by integrating real security tooling — from SAST and SCA to DAST, IAST, and runtime policy enforcement.
 
 ---
@@ -34,5 +34,5 @@ The goal is to learn **AppSec, DevSecOps, and threat modeling** by integrating r
 ---
 
 ## License
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).  
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 © 2025 Aslaf Shaikh
