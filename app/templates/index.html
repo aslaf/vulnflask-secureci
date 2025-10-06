@@ -1,0 +1,18 @@
+<!doctype html>
+<html><body>
+<h1>VulnFlask Shop</h1>
+{% if session.user %}
+<p>Welcome, {{session.user}} (<a href="/admin">admin?</a>)</p>
+{% else %}
+<a href="/login">Login</a>
+{% endif %}
+<form action="/search" method="get">
+<input name="q" placeholder="Search..."/>
+<button>Search</button>
+</form>
+<ul>
+{% for p in products %}
+<li><b>{{p['name']}}</b> - {{p['description']|safe}} - ${{p['price']}}</li>
+{% endfor %}
+</ul>
+</body></html>
