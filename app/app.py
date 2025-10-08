@@ -95,4 +95,4 @@ def admin():
 if __name__ == "__main__":
     if not os.path.exists(DB_PATH):
         init_db()
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
