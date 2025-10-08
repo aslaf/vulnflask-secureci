@@ -20,11 +20,12 @@ jobs:
       - name: Build Docker image
         run: docker build -t vulnflask-secureci .
 
-      - name: Syft - Generate SBOM
-        uses: anchore/sbom-action@v1
-        with:
-          image: vulnflask-secureci
-          output: syft-sbom.json
+      - name: Install Syft
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Generate SBOM
+        run: syft . -o json > syft-sbom.json
 
       - name: Trivy - Scan image for vulnerabilities
         uses: aquasecurity/trivy-action@master
