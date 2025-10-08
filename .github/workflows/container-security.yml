@@ -21,7 +21,7 @@ jobs:
         run: docker build -t vulnflask-secureci .
 
       - name: Syft - Generate SBOM
-        uses: anchore/syft@v0
+        uses: anchore/syft@v1
         with:
           image: vulnflask-secureci
           output: syft-sbom.json
