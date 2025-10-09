@@ -53,3 +53,4 @@ jobs:
         run: |
           echo "Live ZAP scan completed. Download the report artifact for detailed findings."
           echo "Workflow finished successfully (non-blocking mode)."
+# visibility trigger
