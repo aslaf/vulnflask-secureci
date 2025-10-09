@@ -1,0 +1,12 @@
+name: Policy Validation (OPA/Gatekeeper) - v2
+on:
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  opa-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint policies
+        run: |
+          echo "placeholder: validate OPA constraints/templates"
