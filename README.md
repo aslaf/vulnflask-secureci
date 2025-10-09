@@ -1,3 +1,4 @@
+# VulnFlask-SecureCI (v2-dev branch)
 # VulnFlask-SecureCI
 ### A Full DevSecOps Pipeline for a Vulnerable Flask E-commerce App
 
@@ -23,7 +24,7 @@ It automates every layer of security — from threat modeling to runtime policie
 ---
 ## Architecture
 
-The **VulnFlask-SecureCI** project demonstrates a secure-by-default DevSecOps pipeline around an intentionally vulnerable Flask web app.  
+The **VulnFlask-SecureCI** project demonstrates a secure-by-default DevSecOps pipeline around an intentionally vulnerable Flask web app.
 It integrates multiple security layers — from threat modeling to runtime enforcement — using open-source tools orchestrated via GitHub Actions.
 
 
