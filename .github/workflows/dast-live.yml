@@ -1,0 +1,23 @@
+name: DAST Scan (Live - OWASP ZAP)
+
+on:
+  workflow_dispatch: {}   # run manually from Actions tab
+  schedule:
+    - cron: "0 6 * * *"   # optional: daily 06:00 UTC
+
+jobs:
+  zap-scan-live:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run OWASP ZAP Baseline Scan (non-blocking)
+        uses: zaproxy/action-baseline@v0.10.0
+        continue-on-error: true
+        with:
+          target: "https://vulnflask-secureci.onrender.com"  # <-- replace with your real URL
+          cmd_options: "-a -T 120"
+
+      - name: Upload ZAP report (live)
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-live-report
+          path: report_html.html
