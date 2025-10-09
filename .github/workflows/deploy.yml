@@ -31,6 +31,13 @@ jobs:
           image: vulnflask-secureci:latest
           output-file: sbom.spdx.json
           format: spdx-json
+          upload-artifact: false
+
+      - name: Upload SBOM report
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-report
+          path: sbom.spdx.json
 
       # --- Scan container image with Trivy ---
       - name: Trivy Image Scan
