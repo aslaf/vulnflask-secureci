@@ -51,8 +51,13 @@ def init_db():
     db.close()
 
 
-@app.route("/")
+@app.route("/", endpoint="index")
 def index():
+    return "<h1>VulnFlask-SecureCI is running!</h1>"
+
+
+@app.route("/home", endpoint="home")
+def home():
     db = get_db()
     items = db.execute("SELECT * FROM products").fetchall()
     return render_template("index.html", products=items)
