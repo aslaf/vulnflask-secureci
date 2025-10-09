@@ -33,7 +33,3 @@ jobs:
 
       - name: Gitleaks - Secrets Detection
         uses: gitleaks/gitleaks-action@v2
-        with:
-          config-path: .gitleaks.toml
-          report-format: sarif
-          report-path: results.sarif
