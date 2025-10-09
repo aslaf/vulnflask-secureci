@@ -1,0 +1,36 @@
+name: DAST Scan (OWASP ZAP)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  zap-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Start the app in background (Flask or container)
+      - name: Run app locally for scan
+        run: |
+          docker build -t vulnflask-secureci .
+          docker run -d -p 8888:5000 vulnflask-secureci
+          sleep 10  # give it time to start
+
+      # Run OWASP ZAP Baseline Scan
+      - name: Run ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.10.0
+        continue-on-error: true
+        with:
+          target: "http://127.0.0.1:8888"
+          cmd_options: "-a -T 60"
+
+      # Upload HTML report as artifact
+      - name: Upload ZAP report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: report_html.html
