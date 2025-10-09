@@ -29,6 +29,10 @@ jobs:
             -v /usr:/host/usr:ro \
             falcosecurity/falco --modern-bpf || true
 
+      - name: Extract runtime logs
+        run: |
+          docker cp vulnflask:/app/app/iast-runtime.log ./iast-runtime.log || echo "No log found"
+
       - name: Upload runtime logs
         uses: actions/upload-artifact@v4
         with:
