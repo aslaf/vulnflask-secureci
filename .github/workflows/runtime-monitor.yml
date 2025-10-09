@@ -1,0 +1,36 @@
+name: Runtime Monitoring (IAST / Falco)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+jobs:
+  runtime-monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start app container
+        run: |
+          docker build -t vulnflask-secureci .
+          docker run -d --name app -p 5000:5000 vulnflask-secureci
+          sleep 5
+
+      - name: Run Falco
+        run: |
+          docker run --rm --privileged \
+            -v /var/run/docker.sock:/host/var/run/docker.sock \
+            -v /dev:/host/dev \
+            -v /proc:/host/proc:ro \
+            -v /boot:/host/boot:ro \
+            -v /lib/modules:/host/lib/modules:ro \
+            -v /usr:/host/usr:ro \
+            falcosecurity/falco --modern-bpf || true
+
+      - name: Upload runtime logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-monitor-logs
+          path: iast-runtime.log

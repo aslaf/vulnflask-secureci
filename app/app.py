@@ -1,13 +1,36 @@
+import logging
 import os
 import sqlite3
 
 from flask import Flask, redirect, render_template, request, session, url_for
 
+# ------------------------------------------------------
+# Flask App Setup
+# ------------------------------------------------------
 app = Flask(__name__)
 app.secret_key = "dev-secret"  # weak secret for demo
 DB_PATH = os.path.join(os.path.dirname(__file__), "data.db")
 
+# ------------------------------------------------------
+# IAST Runtime Instrumentation
+# ------------------------------------------------------
+logging.basicConfig(filename="iast-runtime.log", level=logging.INFO)
 
+
+@app.before_request
+def log_runtime():
+    """
+    Simulates a runtime instrumentation agent (IAST-style).
+    Logs every incoming request method, path, and source IP.
+    """
+    logging.info(
+        f"IAST Trace: {request.method} {request.path} from {request.remote_addr}"
+    )
+
+
+# ------------------------------------------------------
+# Database Helpers
+# ------------------------------------------------------
 def get_db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
@@ -51,6 +74,9 @@ def init_db():
     db.close()
 
 
+# ------------------------------------------------------
+# Routes
+# ------------------------------------------------------
 @app.route("/", endpoint="index")
 def index():
     return "<h1>VulnFlask-SecureCI is running!</h1>"
@@ -97,6 +123,9 @@ def admin():
     return render_template("admin.html", user=session.get("user", "guest"))
 
 
+# ------------------------------------------------------
+# Run App
+# ------------------------------------------------------
 if __name__ == "__main__":
     if not os.path.exists(DB_PATH):
         init_db()
