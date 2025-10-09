@@ -1,23 +1,55 @@
-name: DAST Scan (Live - OWASP ZAP)
+name: OWASP ZAP Live DAST Workflow (non-blocking)
 
 on:
-  workflow_dispatch: {}   # run manually from Actions tab
+  workflow_dispatch: {}   # Manual trigger from the Actions tab
   schedule:
-    - cron: "0 6 * * *"   # optional: daily 06:00 UTC
+    - cron: "0 6 * * *"   # Optional: daily at 06:00 UTC
 
 jobs:
   zap-scan-live:
+    name: OWASP ZAP Live DAST Scan
     runs-on: ubuntu-latest
+
     steps:
-      - name: Run OWASP ZAP Baseline Scan (non-blocking)
+      - name: Display environment info
+        run: |
+          echo "Starting OWASP ZAP Live Scan..."
+          echo "Target: https://vulnflask-secureci.onrender.com"
+
+      # --- Optional health check before scanning ---
+      - name: Wait for app to become reachable
+        run: |
+          echo "Checking if target is reachable..."
+          for i in {1..10}; do
+            if curl -sSf https://vulnflask-secureci.onrender.com > /dev/null; then
+              echo "Target is up!"
+              break
+            else
+              echo "Attempt $i failed, retrying in 15s..."
+              sleep 15
+            fi
+          done
+
+      # --- Run OWASP ZAP Baseline Scan ---
+      - name: Run ZAP Baseline Scan (non-blocking)
         uses: zaproxy/action-baseline@v0.10.0
         continue-on-error: true
         with:
-          target: "https://vulnflask-secureci.onrender.com"  # <-- replace with your real URL
+          target: "https://vulnflask-secureci.onrender.com"
           cmd_options: "-a -T 120"
+          rules_file_name: ""
+          allow_issue_writing: false
 
+      # --- Upload report artifact ---
       - name: Upload ZAP report (live)
         uses: actions/upload-artifact@v4
         with:
           name: zap-live-report
           path: report_html.html
+
+      # --- Optional summary in logs ---
+      - name: Display report summary
+        if: always()
+        run: |
+          echo "Live ZAP scan completed. Download the report artifact for detailed findings."
+          echo "Workflow finished successfully (non-blocking mode)."
