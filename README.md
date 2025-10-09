@@ -1,79 +1,161 @@
 # VulnFlask-SecureCI
 ### A Full DevSecOps Pipeline for a Vulnerable Flask E-commerce App
 
-VulnFlask-SecureCI is an educational project that demonstrates how to build a secure, automated CI/CD pipeline around an intentionally vulnerable Python Flask application.
-The goal is to learn Application Security (AppSec), DevSecOps, and Threat Modeling by integrating real-world security tooling — from SAST and SCA to DAST, IAST, and runtime policy enforcement.
+VulnFlask-SecureCI is a 10-day project that transforms an intentionally vulnerable Flask e-commerce application into a **secure-by-design CI/CD pipeline.**
+It automates every layer of security — from threat modeling to runtime policies — and demonstrates how real-world DevSecOps can continuously prevent, detect, and respond to risks.
 
----
-## Renamed Dockerfile
-## Key Learning Areas
+## Project Overview
 
-- Threat modeling with STRIDE and automated gating (`threats.yml`)
-- SAST (Semgrep, Bandit) and dependency scanning (pip-audit)
-- Container scanning with Trivy & SBOM generation (Syft)
-- IaC scanning using Checkov for Terraform
-- DAST with OWASP ZAP (baseline & active)
-- IAST-style runtime instrumentation
-- Secure Kubernetes deployments & policy controls (OPA Gatekeeper, Falco)
-
----
-
-## Project Structure
-
-**Directory layout:**
-
-- **`app/`** – Vulnerable Flask application
-  - `app.py` – Main application file (intentionally vulnerable)
-  - `templates/` – Jinja2 templates (index, login, admin, etc.)
-
-- **`tests/`** – Unit tests and fixtures
-  - `test_basic.py` – Basic route and mock tests
-  - `conftest.py` – Pytest configuration
-
-- **`threat_model/`** – STRIDE threat model and validation logic
-  - `threats.yml` – Risk register of threats
-  - `validate_threats.py` – CI script to enforce threat mitigations
-
-- **`.github/workflows/`** – CI/CD pipelines
-  - `threat-validate.yml` – Threat validation workflow
-
-- `.pre-commit-config.yaml` – Linting and code formatting hooks
-- `requirements.txt` – Python dependencies
-- `README.md` – Project documentation
-
----
-
-## Roadmap
-
-| Day | Focus | Deliverable | Status |
+| Phase | Focus | Deliverable | Status |
 |-----|--------|-------------|--------|
 | 1 | Flask App + OWASP Top 10 vulns | Vulnerable app running locally | **Completed** |
 | 2A | Code Quality + Base CI | Linting, formatting, testing CI | **Completed** |
 | 2B | Threat Model & Validation CI | STRIDE model enforcement via GitHub Actions | **Completed** |
-| 3 | SAST + SCA + Secrets CI | Automated static & dependency scanning | Pending |
-| 4 | Container + SBOM | Secure containerization | Pending |
-| 5 | IaC Scanning | Terraform + Checkov | Pending |
-| 6 | CI/CD Deploy | AWS EKS / local k3d staging | Pending |
-| 7 | DAST | OWASP ZAP | Pending |
-| 8 | IAST | Runtime instrumentation | Pending |
-| 9 | Runtime Policies | Falco + OPA Gatekeeper | Pending |
-| 10 | Wrap-Up | Governance report + LinkedIn post | Pending |
+| 3 | SAST + SCA + Secrets CI | Automated static & dependency scanning | **Completed** |
+| 4 | Container + SBOM | Secure containerization | **Completed** |
+| 5 | IaC Scanning | Terraform + Checkov | **Completed** |
+| 6 | CI/CD Deploy | AWS EKS / local k3d staging | **Completed** |
+| 7 | DAST | OWASP ZAP | **Completed** |
+| 8 | IAST | Runtime instrumentation | **Completed** |
+| 9 | Runtime Policies | Falco + OPA Gatekeeper | **Completed** |
+| 10 | Wrap-Up | Governance report | **Completed** |
+
+---
+## Architecture
+
+The **VulnFlask-SecureCI** project demonstrates a secure-by-default DevSecOps pipeline around an intentionally vulnerable Flask web app.  
+It integrates multiple security layers — from threat modeling to runtime enforcement — using open-source tools orchestrated via GitHub Actions.
+
 
 ---
 
-## Tech Stack
+## Key Learnings
 
-**Languages / Frameworks:** Python, Flask
-**Security Tools:** Bandit, Semgrep, Trivy, Syft, Checkov, OWASP ZAP, Falco, OPA
-**Automation:** GitHub Actions, Pre-Commit, Pytest, Terraform
-**Cloud / Containers:** Docker, AWS EKS, Kubernetes (k3d)
+- Security as Code: Every control (threat, scan, or policy) codified in CI/CD
+- Shift-Left + Shift-Right: Continuous scanning before & after deployment
+- Risk-Driven Decisions: High/Critical threats block merges automatically
+- Compliance Mapping: Results align with OWASP ASVS & NIST CSF functions
+- Automation > Awareness: Minimal manual steps, fully auditable pipeline
 
 ---
 
-## Keywords
+## Security Coverage Matrix
 
-AppSec, DevSecOps, SSDLC, Threat Modeling, CI/CD Security,
-SAST, DAST, IAST, SCA, IaC Security, Policy-as-Code, Cloud Security
+| Layer | Focus | Tool | CI Behavior |
+|--------|--------|------|-------------|
+| Threat Modeling | STRIDE validation | Custom Python | Blocks merge on open High/Critical |
+| SAST | Static code flaws | Bandit / Semgrep | Non-blocking (demo) |
+| SCA | Dependency vulnerabilities | pip-audit | Non-blocking (demo) |
+| Secrets | Hard-coded credentials | Gitleaks | Fails if secrets found |
+| Container | Image CVEs & SBOM | Trivy / Syft | Blocks on Critical CVEs |
+| IaC | Terraform drift/config validation | Checkov | Reports only |
+| DAST | Runtime web testing | OWASP ZAP | Generates HTML reports |
+| IAST | Runtime behavior monitoring | Python mock logger | Artifact upload |
+| Runtime | System & container policies | Falco / OPA Gatekeeper | Enforces privilege limits |
+
+---
+
+## Repository Highlights
+
+<pre>
+.github/workflows/
+├── threat-validate.yml
+├── code-security.yml
+├── container-security.yml
+├── iac-scan.yml
+├── dast-scan.yml
+├── dast-live.yml
+├── runtime-policies.yml
+└── deploy.yml
+
+k8s/
+├── deployment.yml
+├── service.yml
+└── policies/
+    ├── constraint-template.yaml
+    └── deny-privileged.yaml
+
+falco/
+└── rules.yaml
+</pre>
+
+---
+
+## Repository Detailed
+
+<pre>
+.github/workflows/
+├── threat-validate.yml          → Validates STRIDE threat model during CI.
+├── code-security.yml            → Runs Bandit, Semgrep, pip-audit, and Gitleaks scans.
+├── container-security.yml       → Generates SBOM (Syft) and scans Docker image with Trivy.
+├── iac-scan.yml                 → Scans Terraform code for misconfigurations using Checkov.
+├── dast-scan.yml                → Runs OWASP ZAP baseline scan locally (containerized target).
+├── dast-live.yml                → Executes OWASP ZAP scan against live deployment (Render/Fly.io).
+├── runtime-policies.yml         → Monitors and enforces runtime behavior (Falco + OPA Gatekeeper).
+└── deploy.yml                   → Builds and deploys Docker image to local K3d or cloud environment.
+
+k8s/
+├── deployment.yml               → Defines Flask app deployment (replica, container image, ports).
+├── service.yml                  → Exposes the app internally via LoadBalancer or NodePort.
+└── policies/
+    ├── constraint-template.yaml → Gatekeeper ConstraintTemplate for privileged container policy.
+    └── deny-privileged.yaml     → OPA constraint denying privileged pods.
+
+falco/
+└── rules.yaml                   → Custom Falco runtime detection rules (shell access, execs, etc).
+
+app/
+├── app.py                       → Vulnerable Flask web app (SQLi, XSS, access control flaws).
+├── templates/                   → HTML templates (intentionally unsafe rendering).
+└── data.db                      → Auto-generated SQLite database for demo purposes.
+
+iac/
+└── main.tf                      → Terraform IaC provisioning sample (S3 + VPC + Subnets).
+
+tests/
+└── test_app.py                  → Unit tests for base Flask functionality.
+
+threat_model/
+├── threats.yml                  → STRIDE-mapped threat register for validation in CI.
+└── validate_threats.py          → Python validation script enforcing “no open High/Critical” risks.
+
+SBOM & Reports/
+├── syft-sbom.json               → Software Bill of Materials generated by Syft.
+├── trivy-report.json            → Container vulnerability report.
+└── zap-report.html              → DAST findings summary (artifact uploaded via CI).
+
+venv/                            → Local Python virtual environment (excluded from CI).
+README.md                        → Project documentation and setup guide.
+requirements.txt                 → Python dependencies for app and scans.
+Dockerfile                       → Container definition for vulnerable Flask app.
+</pre>
+
+---
+
+## Governance Summary
+
+All security results are stored as GitHub Artifacts:
+	•	bandit-report.json, semgrep-report.json, pip-audit.json
+	•	trivy-report.json, sbom.spdx.json, zap-report.html, iast-runtime.log
+
+This enables traceable, auditable evidence of each security control — suitable for SOC 2 / ISO 27001 mappings.
+
+---
+
+## Live Preview
+
+Hosted via **Render**:
+🔗 https://vulnflask-secureci.onrender.com
+
+(Note: intentionally vulnerable; for demonstration only.)
+
+---
+
+## Author
+
+**Aslaf Shaikh** — Security Engineer | DevSecOps | AppSec
+📍 Toronto, Canada
+🔗 github.com/aslaf | 🔗 linkedin.com/in/aslafshaikh
 
 ---
 
