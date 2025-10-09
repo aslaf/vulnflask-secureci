@@ -1,0 +1,13 @@
+- rule: Detect shell inside container
+  desc: Detect exec of a shell in any container (bash, sh)
+  condition: container.id != host and proc.name in (bash, sh)
+  output: "Shell spawned inside container (user=%user.name command=%proc.cmdline container=%container.id)"
+  priority: WARNING
+  tags: [container, shell, mitre_execution]
+
+- rule: Detect sensitive file read
+  desc: Detect reads of /etc/shadow or /etc/passwd
+  condition: open_read and fd.name in (/etc/shadow, /etc/passwd)
+  output: "Sensitive file read (user=%user.name file=%fd.name)"
+  priority: WARNING
+  tags: [filesystem, mitre_discovery]

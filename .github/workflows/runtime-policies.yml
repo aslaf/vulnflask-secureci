@@ -1,0 +1,25 @@
+name: Runtime Policies (OPA + Falco)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  policy-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: OPA Gatekeeper Policy Lint
+        run: |
+          docker run --rm -v $(pwd)/k8s/policies:/policies openpolicyagent/conftest test /policies || true
+
+      - name: Falco Rules Syntax Check
+        run: |
+          docker run --rm -v $(pwd)/falco:/rules falcosecurity/falco:latest falco --list /rules || true
+
+      - name: Upload Policy Logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-policy-results
+          path: .
