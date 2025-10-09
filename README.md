@@ -5,7 +5,7 @@ VulnFlask-SecureCI is an educational project that demonstrates how to build a se
 The goal is to learn Application Security (AppSec), DevSecOps, and Threat Modeling by integrating real-world security tooling — from SAST and SCA to DAST, IAST, and runtime policy enforcement.
 
 ---
-
+## Renamed Dockerfile
 ## Key Learning Areas
 
 - Threat modeling with STRIDE and automated gating (`threats.yml`)
