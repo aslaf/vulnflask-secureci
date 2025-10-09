@@ -34,4 +34,6 @@ jobs:
       - name: Gitleaks - Secrets Detection
         uses: gitleaks/gitleaks-action@v2
         with:
-          args: detect --source . --no-git -v
+          config-path: .gitleaks.toml
+          report-format: sarif
+          report-path: results.sarif
