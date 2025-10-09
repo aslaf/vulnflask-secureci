@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vulnflask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnflask
+  template:
+    metadata:
+      labels:
+        app: vulnflask
+    spec:
+      containers:
+        - name: vulnflask
+          image: localhost:5000/vulnflask-secureci:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000

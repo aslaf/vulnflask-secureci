@@ -1,0 +1,61 @@
+name: Deploy (Container + Security CI/CD)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- Checkout source code ---
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --- Set up Docker environment ---
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # --- Build Docker image for the Flask app ---
+      - name: Build Docker image
+        run: |
+          docker build -t vulnflask-secureci .
+
+      # --- Generate SBOM with Syft ---
+      - name: Generate SBOM (Syft)
+        uses: anchore/sbom-action@v0.15.8
+        with:
+          image: vulnflask-secureci:latest
+          output-file: sbom.spdx.json
+          format: spdx-json
+
+      # --- Scan container image with Trivy ---
+      - name: Trivy Image Scan
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: vulnflask-secureci:latest
+          format: table
+          vuln-type: "os,library"
+          ignore-unfixed: true
+          exit-code: 0       # change to 1 later to enforce blocking
+          output: trivy-report.txt
+
+      # --- (Optional) Run container for staging test ---
+      - name: Run container (staging simulation)
+        run: |
+          docker run -d -p 5000:5000 vulnflask-secureci
+          sleep 5
+          docker ps -a
+
+      # --- Upload security reports as CI artifacts ---
+      - name: Upload Security Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: container-security-reports
+          path: |
+            sbom.spdx.json
+            trivy-report.txt
+          if-no-files-found: ignore
