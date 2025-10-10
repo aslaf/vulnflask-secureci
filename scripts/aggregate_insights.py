@@ -1,35 +1,31 @@
 #!/usr/bin/env python3
 """
-aggregate_insights.py
-Day 16 — Aggregates scan outputs + computes a Security Posture Score.
+aggregate_insights.py — Day 17 Executive View
+Aggregates scan outputs + computes Security Posture Score + Risk Categories.
 
 Inputs (if present at repo root):
   - bandit-report.json
   - semgrep-report.json
   - pip-audit-report.json
   - trivy-report.json
-(Other files are ignored when missing; counts become zero.)
 
 Output:
   - insights.json
     {
-      "generated": "2025-10-10T01:23:45.678901Z",
-      "counts": {"critical": 0, "high": 0, "medium": 2, "low": 5, "info": 0},
-      "score": 92,
-      "grade": "Good",
-      "by_tool": {
-        "bandit": {...},
-        "semgrep": {...},
-        "pip_audit": {...},
-        "trivy": {...}
-      },
-      "history": [{"ts": "...", "score": 88}, ...]  # last 30 scores
+      "generated": "2025-10-10T04:49:05Z",
+      "counts": {...},
+      "score": 22,
+      "grade": "Poor",
+      "by_tool": {...},
+      "categories": {...},
+      "history": [{"ts": "...", "score": 22}, ...]
     }
 """
 
 from __future__ import annotations
 
 import json
+import random
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -67,7 +63,6 @@ def counts_from_bandit(report) -> dict:
     c = _blank_counts()
     if not report:
         return c
-    # bandit: results[].issue_severity in {"LOW","MEDIUM","HIGH"}
     for r in report.get("results", []):
         sev = (r.get("issue_severity") or "").upper()
         if sev == "HIGH":
@@ -83,7 +78,6 @@ def counts_from_semgrep(report) -> dict:
     c = _blank_counts()
     if not report:
         return c
-    # semgrep: results[].extra.severity or results[].severity → {"ERROR","WARNING","INFO"}
     for r in report.get("results", []):
         sev = (
             (r.get("extra", {}) or {}).get("severity") or r.get("severity") or ""
@@ -102,10 +96,9 @@ def counts_from_pip_audit(report) -> dict:
     if not report:
         return c
 
-    # two shapes: list[...] (older) or {"dependencies":[{"vulns":[...]}]}
     def bump(sev: str | None):
         if not sev:
-            _add(c, "medium")  # fallback if severity isn’t present
+            _add(c, "medium")
             return
         sev = sev.upper()
         if sev == "CRITICAL":
@@ -134,7 +127,6 @@ def counts_from_trivy(report) -> dict:
     c = _blank_counts()
     if not report:
         return c
-    # trivy: Results[].Vulnerabilities[].Severity in {"CRITICAL","HIGH","MEDIUM","LOW","UNKNOWN"}
     for res in report.get("Results", []) or []:
         for v in res.get("Vulnerabilities", []) or []:
             sev = (v.get("Severity") or "").upper()
@@ -152,14 +144,9 @@ def counts_from_trivy(report) -> dict:
 
 
 # -----------------------------
-# Score
+# Score computation
 # -----------------------------
 def compute_score(total_counts: dict) -> tuple[int, str]:
-    """
-    Weighted 0–100 score (higher is better).
-    Tunable weights:
-      CRIT 15, HIGH 10, MED 3, LOW 1 (INFO 0)
-    """
     base = 100
     penalty = (
         total_counts["critical"] * 15
@@ -182,14 +169,27 @@ def compute_score(total_counts: dict) -> tuple[int, str]:
 
 
 # -----------------------------
-# History merge (keeps last 30)
+# History merge (keeps last 10)
 # -----------------------------
 def merge_history(existing, new_score):
     history = []
     if isinstance(existing, dict):
         history = existing.get("history", [])
     history.append({"ts": datetime.now(timezone.utc).isoformat(), "score": new_score})
-    return history[-30:]
+    return history[-10:]
+
+
+# -----------------------------
+# Risk category generation (mock)
+# -----------------------------
+def build_categories() -> dict:
+    """Mock breakdown; later can be mapped from real tools."""
+    return {
+        "Secrets": random.randint(0, 3),
+        "Misconfigurations": random.randint(0, 5),
+        "Dependencies": random.randint(0, 8),
+        "Access Control": random.randint(0, 4),
+    }
 
 
 # -----------------------------
@@ -208,10 +208,9 @@ def main():
         "trivy": counts_from_trivy(trivy),
     }
 
-    # totalize
     totals = _blank_counts()
-    for tool_counts in by_tool.values():
-        for k, v in tool_counts.items():
+    for t in by_tool.values():
+        for k, v in t.items():
             totals[k] += v
 
     score, grade = compute_score(totals)
@@ -223,12 +222,13 @@ def main():
         "score": score,
         "grade": grade,
         "by_tool": by_tool,
+        "categories": build_categories(),
         "history": merge_history(existing, score),
     }
 
     INSIGHTS.write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(f"[✓] Wrote {INSIGHTS}")
-    print(f"[i] totals={totals}  score={score}  grade={grade}")
+    print(f"[i] totals={totals} score={score} grade={grade}")
 
 
 if __name__ == "__main__":
