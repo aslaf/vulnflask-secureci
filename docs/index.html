@@ -69,7 +69,7 @@
   <h1>VulnFlask-SecureCI — Security Dashboard</h1>
   <div class="muted" id="generatedStamp">Generated: —</div>
 
-  <!-- New visuals -->
+  <!-- Top visuals -->
   <div class="grid">
     <div class="card">
       <h2>Posture Score</h2>
@@ -89,7 +89,19 @@
     </div>
   </div>
 
-  <!-- Your existing summary table (static example retained) -->
+  <!-- Executive charts -->
+  <div class="grid" style="margin-top: 30px;">
+    <div class="card">
+      <h2>Historical Posture</h2>
+      <canvas id="historyChart" height="200"></canvas>
+    </div>
+    <div class="card">
+      <h2>Risk Category Breakdown</h2>
+      <canvas id="riskChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- Summary table -->
   <table>
     <thead>
       <tr><th>Tool</th><th>Status</th><th>Findings</th></tr>
@@ -104,7 +116,7 @@
   </table>
 
   <div class="footer">
-    Missing = N/A (scan not run). This page is updated by CI (Day 12+16).
+    Missing = N/A (scan not run). This page is updated by CI (Day 12–17).
   </div>
   <div class="links" style="margin-top:12px;">
     <a href="../security-report.md">security-report.md</a>
@@ -119,105 +131,88 @@
 <script>
 /* ---------- helpers ---------- */
 const byId = (id) => document.getElementById(id);
-const colorForScore = (s) => (s >= 85 ? getCSS('--ok') : s >= 70 ? getCSS('--warn') : getCSS('--fail'));
 function getCSS(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+const colorForScore = (s) => (s >= 85 ? getCSS('--ok') : s >= 70 ? getCSS('--warn') : getCSS('--fail'));
 
-/* Try multiple locations so it "just works" whether insights.json is in docs/ or repo root */
+/* ---------- load insights ---------- */
 async function loadInsights() {
-  const candidates = ['insights.json', './insights.json', '../insights.json', '/insights.json'];
+  const candidates = ['insights.json', './insights.json', '../insights.json'];
   for (const url of candidates) {
     try {
       const res = await fetch(url, { cache: 'no-store' });
       if (res.ok) return await res.json();
-    } catch (e) { /* ignore */ }
+    } catch {}
   }
   return null;
 }
 
 /* ---------- charts ---------- */
-let gaugeChart, trendChart;
+let gaugeChart, trendChart, historyChart, riskChart;
 
 function drawGauge(score, grade) {
   const ctx = byId('gaugeCanvas').getContext('2d');
   const fg = colorForScore(score);
   const bg = '#e5e7eb';
-
   if (gaugeChart) gaugeChart.destroy();
+
   gaugeChart = new Chart(ctx, {
     type: 'doughnut',
-    data: {
-      labels: ['Score', 'Remaining'],
-      datasets: [{
-        data: [score, Math.max(0, 100 - score)],
-        backgroundColor: [fg, bg],
-        borderWidth: 0
-      }]
-    },
-    options: {
-      responsive: true,
-      cutout: '70%',
-      rotation: -90,         // start at 12 o'clock
-      circumference: 180,    // half circle gauge
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: false }
-      }
-    }
+    data: { datasets: [{ data: [score, 100 - score], backgroundColor: [fg, bg], borderWidth: 0 }] },
+    options: { cutout: '70%', rotation: -90, circumference: 180, plugins: { legend: { display: false } } }
   });
-
   byId('gaugeScore').textContent = `${Math.round(score)}%`;
   byId('gaugeGrade').textContent = `Grade: ${grade || '-'}`;
 }
 
 function drawTrend(history) {
   const ctx = byId('trendCanvas').getContext('2d');
-
   if (!Array.isArray(history) || history.length === 0) {
-    if (trendChart) trendChart.destroy();
     byId('trendNote').textContent = 'No history yet. Run analytics to build trends.';
     return;
   }
-
-  // Normalize history shape: accept {ts} or {time} or {date}; severities under history[i].totals or top-level keys
-  const L = Math.min(12, history.length); // last 12 runs
-  const slice = history.slice(-L);
-
-  const labels = slice.map(h => {
-    const t = h.ts || h.time || h.date || h.timestamp || '';
-    const d = t ? new Date(t) : new Date();
-    return d.toLocaleDateString();
-  });
-
-  const val = (h, k) =>
-    (h.totals && typeof h.totals[k] === 'number') ? h.totals[k] :
-    (typeof h[k] === 'number' ? h[k] : 0);
-
-  const dataCritical = slice.map(h => val(h, 'critical'));
-  const dataHigh     = slice.map(h => val(h, 'high'));
-  const dataMedium   = slice.map(h => val(h, 'medium'));
-  const dataLow      = slice.map(h => val(h, 'low'));
-
   if (trendChart) trendChart.destroy();
   trendChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels,
-      datasets: [
-        { label: 'Critical', data: dataCritical, borderColor: '#7f1d1d', backgroundColor: '#7f1d1d', tension: 0.25 },
-        { label: 'High',     data: dataHigh,     borderColor: '#dc2626', backgroundColor: '#dc2626', tension: 0.25 },
-        { label: 'Medium',   data: dataMedium,   borderColor: '#f59e0b', backgroundColor: '#f59e0b', tension: 0.25 },
-        { label: 'Low',      data: dataLow,      borderColor: '#60a5fa', backgroundColor: '#60a5fa', tension: 0.25 },
-      ]
+      labels: history.map(h => new Date(h.ts).toLocaleDateString()),
+      datasets: [{ label: 'Posture Score', data: history.map(h => h.score), borderColor: '#2563eb', fill: false, tension: 0.3 }]
     },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'top' }
-      },
-      scales: {
-        y: { beginAtZero: true, ticks: { precision: 0 } }
-      }
-    }
+    options: { scales: { y: { min: 0, max: 100 } }, plugins: { legend: { display: false } } }
+  });
+}
+
+function drawHistory(history) {
+  const ctx = byId('historyChart').getContext('2d');
+  if (historyChart) historyChart.destroy();
+  historyChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: history.map(h => new Date(h.ts).toLocaleDateString()),
+      datasets: [{
+        label: 'Security Posture',
+        data: history.map(h => h.score),
+        borderColor: '#4f46e5',
+        tension: 0.3
+      }]
+    },
+    options: { responsive: true, scales: { y: { min: 0, max: 100 } } }
+  });
+}
+
+function drawRisk(categories) {
+  const ctx = byId('riskChart').getContext('2d');
+  if (riskChart) riskChart.destroy();
+  riskChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(categories),
+      datasets: [{
+        label: 'Findings',
+        data: Object.values(categories),
+        backgroundColor: ['#ef4444','#f59e0b','#3b82f6','#10b981']
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
   });
 }
 
@@ -225,29 +220,19 @@ function drawTrend(history) {
 (async function init() {
   const insights = await loadInsights();
   if (!insights) {
-    drawGauge(0, '-');
-    drawTrend([]);
+    drawGauge(0, '-'); drawTrend([]); drawHistory([]); drawRisk({});
     byId('generatedStamp').textContent = 'Generated: — (insights.json missing)';
     return;
   }
 
-  // Stamp
-  const ts = insights.generated || insights.timestamp || insights.ts || new Date().toISOString();
-  try {
-    const d = new Date(ts);
-    byId('generatedStamp').textContent = `Generated: ${d.toISOString().replace('T', ' ').replace('Z', ' UTC')}`;
-  } catch {
-    byId('generatedStamp').textContent = `Generated: ${ts}`;
-  }
+  const ts = insights.generated || new Date().toISOString();
+  const d = new Date(ts);
+  byId('generatedStamp').textContent = `Generated: ${d.toISOString().replace('T', ' ').replace('Z', ' UTC')}`;
 
-  // Gauge
-  const score = typeof insights.score === 'number' ? insights.score : 0;
-  const grade = insights.grade || '-';
-  drawGauge(score, grade);
-
-  // Trend
-  const history = Array.isArray(insights.history) ? insights.history : [];
-  drawTrend(history);
+  drawGauge(insights.score || 0, insights.grade || '-');
+  drawTrend(insights.history || []);
+  drawHistory(insights.history || []);
+  drawRisk(insights.categories || {});
 })();
 </script>
 </body>
