@@ -1,58 +1,49 @@
 #!/usr/bin/env python3
 """
-notify_slack.py
------------------------------------
-Day 15 – Observability & Notifications
-Sends summarized security notifications to Slack
-using the SLACK_WEBHOOK_URL secret.
+notify_slack.py — Day 15 Observability
+Send summarized security notifications to Slack.
+Gracefully handles missing triage-summary.md.
 """
-
 import os
 from datetime import datetime
 from pathlib import Path
 
 import requests
 
-# --------------------------------------------------------------------
-# Paths & Config
-# --------------------------------------------------------------------
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "triage-summary.md"
 WEBHOOK = os.getenv("SLACK_WEBHOOK_URL")
 
 
-# --------------------------------------------------------------------
-# Helpers
-# --------------------------------------------------------------------
 def extract_summary():
     """
-    Extract critical/high issue counts from triage-summary.md.
-    If the file doesn't exist, return (0, 0) and log warning.
+    Return (critical, high) counts.
+    If file missing, return zeros and warn.
     """
     if not REPORT.exists():
-        print("[WARN] triage-summary.md not found, sending placeholder message.")
+        print("[WARN] triage-summary.md not found → sending placeholder notification.")
         return 0, 0
 
     try:
         text = REPORT.read_text(encoding="utf-8")
         critical = text.count("CRITICAL:")
         high = text.count("HIGH:")
-        print(f"[INFO] Extracted findings → CRITICAL={critical}, HIGH={high}")
+        print(f"[INFO] Extracted summary: CRITICAL={critical}, HIGH={high}")
         return critical, high
     except Exception as e:
-        print(f"[ERROR] Failed to read triage-summary.md: {e}")
+        print(f"[ERROR] Could not read summary file: {e}")
         return 0, 0
 
 
 def notify_slack():
     """
-    Build Slack message and send to configured webhook.
+    Build and send Slack message with fallback logic.
     """
-    critical, high = extract_summary()
     if not WEBHOOK:
-        print("[ERROR] SLACK_WEBHOOK_URL not set. Exiting.")
+        print("[ERROR] SLACK_WEBHOOK_URL not set in environment.")
         return
 
+    critical, high = extract_summary()
     total = critical + high
     color = "#2ECC71" if total == 0 else "#E74C3C"
 
@@ -81,12 +72,9 @@ def notify_slack():
         response.raise_for_status()
         print(f"[INFO] Slack notification sent successfully ({response.status_code}).")
     except requests.exceptions.RequestException as e:
-        print(f"[ERROR] Slack API call failed: {e}")
+        print(f"[ERROR] Slack API request failed: {e}")
 
 
-# --------------------------------------------------------------------
-# Entry Point
-# --------------------------------------------------------------------
 if __name__ == "__main__":
-    print("=== Slack Notification Runner (Day 15) ===")
+    print("=== Running Slack Notification ===")
     notify_slack()
