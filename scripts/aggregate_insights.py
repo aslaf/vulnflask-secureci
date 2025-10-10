@@ -185,10 +185,10 @@ def merge_history(existing, new_score):
 def build_categories() -> dict:
     """Mock breakdown; later can be mapped from real tools."""
     return {
-        "Secrets": random.randint(1, 12),
-        "Misconfigurations": random.randint(1, 15),
-        "Dependencies": random.randint(5, 25),
-        "Access Control": random.randint(1, 10),
+        "Secrets": random.randint(5, 30),
+        "Misconfigurations": random.randint(10, 40),
+        "Dependencies": random.randint(20, 60),
+        "Access Control": random.randint(5, 25),
     }
 
 
