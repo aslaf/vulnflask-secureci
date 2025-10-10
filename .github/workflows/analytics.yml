@@ -1,0 +1,51 @@
+name: Security Insights & Posture Analytics
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1"   # Mondays 08:00 UTC
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  build-insights:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # keep history for trend tracking
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate Security Insights
+        run: |
+          echo "🔍 Running aggregate_insights.py"
+          python3 scripts/aggregate_insights.py
+          echo "✅ insights.json created:"
+          cat insights.json || true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-insights
+          path: insights.json
+          if-no-files-found: error
+
+      - name: Commit insights.json back to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet insights.json; then
+            git add insights.json
+            git commit -m "chore: update security insights [skip ci]"
+            git push
+          else
+            echo "No new insights to commit."
+          fi

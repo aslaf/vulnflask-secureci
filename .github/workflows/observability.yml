@@ -8,7 +8,7 @@ on:
     - cron: "0 9 * * 1"  # Mondays 09:00 UTC
 
 permissions:
-  contents: read
+  contents: write        # allow analytics refresh + docs update
 
 jobs:
   notify:
@@ -16,15 +16,39 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install requests
+      - name: Install dependencies
         run: pip install requests
 
+      # --- Step 1: Ensure insights.json is up to date ---
+      - name: Generate insights
+        run: |
+          python3 scripts/aggregate_insights.py
+          cp insights.json docs/ || true
+          echo "✅ Generated insights.json:"
+          cat insights.json || true
+
+      # --- Step 2: Commit new insights (optional, keeps dashboard current) ---
+      - name: Commit insights back to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet insights.json; then
+            git add insights.json docs/insights.json
+            git commit -m "chore: refresh insights before Slack summary [skip ci]"
+            git push
+          else
+            echo "No new insights to commit."
+          fi
+
+      # --- Step 3: Send Slack summary ---
       - name: Send Slack notification
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
