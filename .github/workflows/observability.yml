@@ -1,0 +1,30 @@
+name: Observability & Slack Notification
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 12 * * 1"  # every Monday 12:00 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Post Security Summary to Slack
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Send Slack Notification
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: python3 scripts/notify_slack.py
