@@ -1,0 +1,61 @@
+name: Day 12 - Security Dashboard & Weekly Issue
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 7 * * 1"  # Mondays 07:00 UTC
+
+permissions:
+  contents: write       # allow committing docs/ updates
+  issues: write
+
+jobs:
+  build-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build dashboard + report
+        run: |
+          python3 scripts/build_dashboard.py
+          echo "Workspace listing:"
+          ls -la
+          echo "Docs listing:"
+          ls -la docs || true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: day12-dashboard
+          path: |
+            security-report.md
+            docs/index.html
+          if-no-files-found: error
+
+      - name: Commit docs/ to repo (for GitHub Pages)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet docs; then
+            git add docs security-report.md
+            git commit -m "chore: update security dashboard [skip ci]"
+            git push
+          else
+            echo "No changes to docs/"
+          fi
+
+      - name: Open/Update weekly issue with latest report
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: "Weekly Security Summary ($(date +'%Y-%m-%d'))"
+          content-filepath: ./security-report.md
+          labels: security, governance
+          assignees: ""
