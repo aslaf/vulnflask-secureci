@@ -47,8 +47,13 @@ jobs:
           python3 - <<'EOF'
           import json, os
           def summarize(file, label):
-              if not os.path.exists(file): return f"**{label}:** No report.\n"
-              data = json.load(open(file))
+              if not os.path.exists(file):
+                  return f"**{label}:** No report.\n"
+              try:
+                  content = open(file).read().strip()
+                  data = json.loads(content) if content else {}
+              except Exception:
+                  data = {}
               count = len(data.get("results", []))
               status = "Clean" if count == 0 else f"{count} issues"
               return f"**{label}:** {status}\n"
