@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-notify_slack.py — Day 15 Observability
-Send summarized security notifications to Slack.
-Gracefully handles missing triage-summary.md.
+notify_slack.py — clean rebuild (Day 15 Observability)
+Sends a concise status message to Slack.
 """
 import os
 from datetime import datetime
@@ -15,66 +14,46 @@ REPORT = ROOT / "triage-summary.md"
 WEBHOOK = os.getenv("SLACK_WEBHOOK_URL")
 
 
-def extract_summary():
-    """
-    Return (critical, high) counts.
-    If file missing, return zeros and warn.
-    """
+def summarize():
+    """Return counts of critical/high findings, or (0,0) if file missing."""
     if not REPORT.exists():
-        print("[WARN] triage-summary.md not found → sending placeholder notification.")
+        print("[WARN] triage-summary.md not found — placeholder summary sent.")
         return 0, 0
-
-    try:
-        text = REPORT.read_text(encoding="utf-8")
-        critical = text.count("CRITICAL:")
-        high = text.count("HIGH:")
-        print(f"[INFO] Extracted summary: CRITICAL={critical}, HIGH={high}")
-        return critical, high
-    except Exception as e:
-        print(f"[ERROR] Could not read summary file: {e}")
-        return 0, 0
+    text = REPORT.read_text(encoding="utf-8", errors="ignore")
+    critical = text.count("CRITICAL:")
+    high = text.count("HIGH:")
+    return critical, high
 
 
-def notify_slack():
-    """
-    Build and send Slack message with fallback logic.
-    """
+def notify():
+    """Post summary message to Slack."""
     if not WEBHOOK:
-        print("[ERROR] SLACK_WEBHOOK_URL not set in environment.")
+        print("[ERROR] SLACK_WEBHOOK_URL not found in environment.")
         return
 
-    critical, high = extract_summary()
+    critical, high = summarize()
     total = critical + high
     color = "#2ECC71" if total == 0 else "#E74C3C"
 
-    msg = {
+    payload = {
         "attachments": [
             {
-                "fallback": "Security summary notification",
+                "fallback": "Security summary",
                 "color": color,
-                "title": "🛡️ VulnFlask-SecureCI — Security Report",
-                "text": (
-                    f"*High/Critical Issues:* {total}\n"
-                    f"*Generated:* {datetime.utcnow().isoformat()} UTC"
-                    + (
-                        "\n_(No triage-summary.md found — placeholder run.)_"
-                        if total == 0
-                        else ""
-                    )
-                ),
-                "footer": "GitHub Actions • Day 15 Observability",
+                "title": "🛡️ VulnFlask-SecureCI — Weekly Security Report",
+                "text": f"*High/Critical Findings:* {total}\nGenerated: {datetime.utcnow().isoformat()} UTC",
+                "footer": "GitHub Actions – Day 15 Observability",
             }
         ]
     }
 
     try:
-        response = requests.post(WEBHOOK, json=msg, timeout=10)
-        response.raise_for_status()
-        print(f"[INFO] Slack notification sent successfully ({response.status_code}).")
+        r = requests.post(WEBHOOK, json=payload, timeout=10)
+        r.raise_for_status()
+        print(f"[INFO] Slack message sent ({r.status_code}).")
     except requests.exceptions.RequestException as e:
-        print(f"[ERROR] Slack API request failed: {e}")
+        print(f"[ERROR] Slack post failed: {e}")
 
 
 if __name__ == "__main__":
-    print("=== Running Slack Notification ===")
-    notify_slack()
+    notify()
