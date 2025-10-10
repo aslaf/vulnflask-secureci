@@ -1,0 +1,78 @@
+name: PR Security Feedback
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  pr-security-feedback:
+    runs-on: ubuntu-latest
+    name: Security Review (Bandit + Semgrep)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install scanners
+        run: |
+          pip install bandit semgrep --quiet
+
+      # --- Run Bandit on changed files only ---
+      - name: Run Bandit (SAST)
+        run: |
+          git fetch origin main
+          git diff --name-only origin/main | grep '\.py$' | xargs bandit -f json -o bandit-report.json || true
+
+      # --- Run Semgrep (policy-based code analysis) ---
+      - name: Run Semgrep (Code Review Rules)
+        run: |
+          semgrep ci --json > semgrep-report.json || true
+
+      # --- Parse and summarize ---
+      - name: Summarize results
+        run: |
+          echo "### Security Feedback Summary" > feedback.md
+          echo "" >> feedback.md
+          python3 - <<'EOF'
+          import json, os
+          def summarize(file, label):
+              if not os.path.exists(file): return f"**{label}:** No report.\n"
+              data = json.load(open(file))
+              count = len(data.get("results", []))
+              status = "Clean" if count == 0 else f"{count} issues"
+              return f"**{label}:** {status}\n"
+          summary = summarize("bandit-report.json","Bandit") + summarize("semgrep-report.json","Semgrep")
+          print(summary)
+          with open("feedback.md","a") as f: f.write(summary)
+          EOF
+
+      # --- Post comment on the PR ---
+      - name: Comment results on PR
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: feedback.md
+
+      # --- Add labels automatically ---
+      - name: Label risky PRs
+        if: success()
+        run: |
+          if grep -q "⚠feedback.md; then
+            gh pr edit ${{ github.event.pull_request.number }} --add-label "security-risk"
+          else
+            gh pr edit ${{ github.event.pull_request.number }} --add-label "security-clean"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
