@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Day 12 – Build a simple security dashboard (HTML + MD)
-Reads whatever scan outputs exist and produces:
-  - security-report.md (root)
-  - docs/index.html (for GitHub Pages)
-Gracefully handles missing files (prints N/A).
+Day 12 — Security Dashboard Builder
+------------------------------------
+Generates:
+  • security-report.md  (root)
+  • docs/index.html      (for GitHub Pages)
+Reads JSON/HTML scan artifacts if present and summarizes results.
 """
 
 from __future__ import annotations
@@ -14,6 +15,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple
 
+# -------------------------------------------------------------------
+# Paths
+# -------------------------------------------------------------------
 ROOT = Path(__file__).resolve().parents[1]
 OUT_MD = ROOT / "security-report.md"
 DOCS_DIR = ROOT / "docs"
@@ -21,11 +25,14 @@ DOCS_DIR.mkdir(exist_ok=True, parents=True)
 OUT_HTML = DOCS_DIR / "index.html"
 
 
+# -------------------------------------------------------------------
+# Helper functions
+# -------------------------------------------------------------------
 def load_json(path: Path) -> Optional[dict]:
     if not path.exists():
         return None
     try:
-        with path.open("r", encoding="utf-8") as f:
+        with path.open(encoding="utf-8") as f:
             return json.load(f)
     except Exception:
         return None
@@ -36,7 +43,7 @@ def summarize_bandit(p: Path) -> Tuple[str, int]:
     if not data:
         return ("N/A", 0)
     results = data.get("results", [])
-    return ("Present" if results else "Clean", len(results) or 0)
+    return ("Present" if results else "Clean", len(results))
 
 
 def summarize_semgrep(p: Path) -> Tuple[str, int]:
@@ -44,20 +51,19 @@ def summarize_semgrep(p: Path) -> Tuple[str, int]:
     if not data:
         return ("N/A", 0)
     results = data.get("results", [])
-    return ("Present" if results else "Clean", len(results) or 0)
+    return ("Present" if results else "Clean", len(results))
 
 
 def summarize_pip_audit(p: Path) -> Tuple[str, int]:
     data = load_json(p)
     if not data:
         return ("N/A", 0)
-    # pip-audit JSON formats vary by version; handle common shapes
     findings = 0
     if isinstance(data, dict) and "dependencies" in data:
         for dep in data["dependencies"]:
             vulns = dep.get("vulns") or dep.get("vulnerabilities") or []
             findings += len(vulns)
-    elif isinstance(data, list):  # older format
+    elif isinstance(data, list):
         for dep in data:
             findings += len(dep.get("vulns", []))
     return ("Present" if findings else "Clean", findings)
@@ -75,10 +81,8 @@ def summarize_trivy(p: Path) -> Tuple[str, int]:
 
 
 def summarize_zap(html_path: Path) -> Tuple[str, int]:
-    # ZAP baseline action outputs 'report_html.html' by default
     if not html_path.exists():
         return ("N/A", 0)
-    # Quick heuristic: count occurrences of 'Risk level:' or 'Alert'
     try:
         content = html_path.read_text(encoding="utf-8", errors="ignore")
         count = content.lower().count("alert")
@@ -91,93 +95,121 @@ def row(tool: str, status: str, findings: int) -> str:
     return f"| {tool} | {status} | {findings} |"
 
 
+# -------------------------------------------------------------------
+# Main
+# -------------------------------------------------------------------
 def main() -> None:
+    # Summaries ------------------------------------------------------
     bandit_status, bandit_findings = summarize_bandit(ROOT / "bandit-report.json")
     semgrep_status, semgrep_findings = summarize_semgrep(ROOT / "semgrep-report.json")
     pip_status, pip_findings = summarize_pip_audit(ROOT / "pip-audit-report.json")
     trivy_status, trivy_findings = summarize_trivy(ROOT / "trivy-report.json")
     zap_status, zap_findings = summarize_zap(ROOT / "report_html.html")
 
+    summary = {
+        "Bandit (SAST)": {"status": bandit_status, "findings": bandit_findings},
+        "Semgrep (Code)": {"status": semgrep_status, "findings": semgrep_findings},
+        "pip-audit (SCA)": {"status": pip_status, "findings": pip_findings},
+        "Trivy/Container": {"status": trivy_status, "findings": trivy_findings},
+        "OWASP ZAP (DAST)": {"status": zap_status, "findings": zap_findings},
+    }
+
     timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 
-    # ---------- Markdown ----------
-    md_lines = [
-        "# VulnFlask-SecureCI — Security Summary Report",
-        "",
-        f"**Generated:** {timestamp}",
-        "",
-        "## Scan Summary",
-        "| Tool | Status | Findings |",
-        "|------|--------|----------|",
-        row("Bandit (SAST)", bandit_status, bandit_findings),
-        row("Semgrep (Code)", semgrep_status, semgrep_findings),
-        row("pip-audit (SCA)", pip_status, pip_findings),
-        row("Trivy/Container", trivy_status, trivy_findings),
-        row("OWASP ZAP (DAST)", zap_status, zap_findings),
-        "",
-        "## Notes",
-        "- Missing files show as **N/A** (scan not run or artifacts not persisted).",
-        "- This is non-blocking; use it to trend risk and prioritize fixes.",
-        "",
-        "_Generated by Day 12 dashboard builder._",
-    ]
+    # Markdown --------------------------------------------------------
+    md_lines = (
+        [
+            "# VulnFlask-SecureCI — Security Summary Report",
+            "",
+            f"**Generated:** {timestamp}",
+            "",
+            "## Scan Summary",
+            "| Tool | Status | Findings |",
+            "|------|---------|-----------|",
+        ]
+        + [row(t, d["status"], d["findings"]) for t, d in summary.items()]
+        + [
+            "",
+            "## Notes",
+            "- Missing files show as **N/A** (scan not run or artifacts not persisted).",
+            "- This is non-blocking; use it to trend risk and prioritize fixes.",
+            "",
+            "_Generated by Day 12 dashboard builder._",
+        ]
+    )
     OUT_MD.write_text("\n".join(md_lines), encoding="utf-8")
-    print("Wrote:", OUT_MD)
+    print(f"[INFO] Wrote Markdown → {OUT_MD}")
 
-    # ---------- HTML (GitHub Pages) ----------
-    html = f"""<!doctype html>
+    # HTML ------------------------------------------------------------
+    html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta charset="UTF-8">
 <title>VulnFlask-SecureCI — Security Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-  body {{ font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 32px; color: #111; }}
-  h1 {{ font-size: 24px; margin-bottom: 4px; }}
-  .muted {{ color: #666; font-size: 14px; }}
-  table {{ border-collapse: collapse; width: 100%; margin-top: 16px; }}
-  th, td {{ border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }}
-  th {{ background: #f9fafb; }}
-  .ok {{ color: #157347; }}
-  .warn {{ color: #b26a00; }}
-  .na {{ color: #6b7280; }}
-  .footer {{ margin-top: 24px; font-size: 13px; color: #6b7280; }}
-  .links a {{ margin-right: 12px; }}
+ body {{ font-family: Arial, sans-serif; margin: 40px; }}
+ h1 {{ color: #222; }}
+ table {{ border-collapse: collapse; width: 100%; margin-top: 20px; }}
+ th, td {{ border: 1px solid #ddd; padding: 10px; text-align: left; }}
+ th {{ background-color: #f4f4f4; }}
+ .badge {{ padding: 4px 8px; border-radius: 6px; color: #fff; }}
+ .badge.pass {{ background-color: #2ecc71; }}
+ .badge.warn {{ background-color: #f39c12; }}
+ .badge.fail {{ background-color: #e74c3c; }}
 </style>
 </head>
 <body>
-  <h1>VulnFlask-SecureCI — Security Dashboard</h1>
-  <div class="muted">Generated: {timestamp}</div>
+<h1>VulnFlask-SecureCI — Security Dashboard</h1>
+<p><b>Generated:</b> {timestamp}</p>
 
-  <table>
-    <thead>
-      <tr><th>Tool</th><th>Status</th><th>Findings</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Bandit (SAST)</td><td>{bandit_status}</td><td>{bandit_findings}</td></tr>
-      <tr><td>Semgrep (Code)</td><td>{semgrep_status}</td><td>{semgrep_findings}</td></tr>
-      <tr><td>pip-audit (SCA)</td><td>{pip_status}</td><td>{pip_findings}</td></tr>
-      <tr><td>Trivy/Container</td><td>{trivy_status}</td><td>{trivy_findings}</td></tr>
-      <tr><td>OWASP ZAP (DAST)</td><td>{zap_status}</td><td>{zap_findings}</td></tr>
-    </tbody>
-  </table>
-
-  <div class="footer">
-    Missing = N/A (scan not run). This page is updated by CI (Day 12).
-  </div>
-  <div class="links" style="margin-top:12px;">
-    <a href="../security-report.md">security-report.md</a>
-    <a href="../bandit-report.json">bandit-report.json</a>
-    <a href="../semgrep-report.json">semgrep-report.json</a>
-    <a href="../pip-audit-report.json">pip-audit-report.json</a>
-    <a href="../trivy-report.json">trivy-report.json</a>
-    <a href="../report_html.html">zap-report.html</a>
-  </div>
-</body>
-</html>
+<table>
+<tr><th>Tool</th><th>Status</th><th>Findings</th></tr>
 """
+
+    for tool, data in summary.items():
+        status = data["status"]
+        cls = (
+            "pass"
+            if status in ["Clean", "Generated"]
+            else "warn"
+            if status == "N/A"
+            else "fail"
+        )
+        html += (
+            f"<tr><td>{tool}</td>"
+            f"<td><span class='badge {cls}'>{status}</span></td>"
+            f"<td>{data['findings']}</td></tr>"
+        )
+
+    labels = ",".join(f"'{t}'" for t in summary)
+    values = ",".join(str(d["findings"]) for d in summary.values())
+
+    html += f"""
+</table>
+<canvas id="chart" width="400" height="180" style="margin-top:40px;"></canvas>
+<script>
+const ctx = document.getElementById('chart');
+new Chart(ctx,{{
+ type:'bar',
+ data:{{
+  labels:[{labels}],
+  datasets:[{{
+   label:'Findings',
+   data:[{values}],
+   backgroundColor:'rgba(54,162,235,0.5)',
+   borderColor:'rgb(54,162,235)',
+   borderWidth:1
+  }}]
+ }},
+ options:{{ scales:{{ y:{{ beginAtZero:true }} }} }}
+}});
+</script>
+</body></html>
+"""
+
     OUT_HTML.write_text(html, encoding="utf-8")
-    print("Wrote:", OUT_HTML)
+    print(f"[INFO] Wrote Dashboard → {OUT_HTML}")
 
 
 if __name__ == "__main__":

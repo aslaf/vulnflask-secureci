@@ -1,4 +1,4 @@
-name: Day 12 - Security Dashboard & Weekly Issue
+name: Security Dashboard & Weekly Issue
 
 on:
   workflow_dispatch:
@@ -12,6 +12,7 @@ permissions:
 jobs:
   build-dashboard:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,6 +33,7 @@ jobs:
           ls -la docs || true
 
       - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: day12-dashboard
@@ -53,9 +55,11 @@ jobs:
           fi
 
       - name: Open/Update weekly issue with latest report
-        uses: peter-evans/create-issue-from-file@v4
+        uses: peter-evans/create-issue-from-file@v5
         with:
           title: "Weekly Security Summary ($(date +'%Y-%m-%d'))"
           content-filepath: ./security-report.md
-          labels: security, governance
-          assignees: ""
+          labels: |
+            security
+            governance
+          assignees: aslaf
