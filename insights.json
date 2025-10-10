@@ -1,0 +1,48 @@
+{
+  "generated": "2025-10-10T04:59:51.019869+00:00",
+  "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 8,
+    "low": 54,
+    "info": 0
+  },
+  "score": 22,
+  "grade": "Poor",
+  "by_tool": {
+    "bandit": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "semgrep": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "pip_audit": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "trivy": {
+      "critical": 0,
+      "high": 0,
+      "medium": 8,
+      "low": 54,
+      "info": 0
+    }
+  },
+  "history": [
+    {
+      "ts": "2025-10-10T04:59:51.020225+00:00",
+      "score": 22
+    }
+  ]
+}
