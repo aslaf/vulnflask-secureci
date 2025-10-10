@@ -1,0 +1,63 @@
+name: Vulnerability Triage
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+  schedule:
+    - cron: "0 7 * * 1"   # Mondays 07:00 UTC
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run triage script
+        run: |
+          python3 scripts/triage_findings.py
+          echo "---- triage-summary.md ----"
+          tail -n +1 triage-summary.md || true
+
+      - name: Upload triage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: day13-triage
+          path: |
+            triage-summary.md
+            triage-summary.json
+            triage-high.md
+          if-no-files-found: error
+
+      - name: Export severity counts (for conditional issue)
+        id: counts
+        run: |
+          echo "CRITICAL_COUNT=$(jq -r '.critical // 0' triage-summary.json)" >> $GITHUB_ENV
+          echo "HIGH_COUNT=$(jq -r '.high // 0' triage-summary.json)" >> $GITHUB_ENV
+          echo "MEDIUM_COUNT=$(jq -r '.medium // 0' triage-summary.json)" >> $GITHUB_ENV
+          echo "LOW_COUNT=$(jq -r '.low // 0' triage-summary.json)" >> $GITHUB_ENV
+          echo "INFO_COUNT=$(jq -r '.info // 0' triage-summary.json)" >> $GITHUB_ENV
+
+      # Open a single issue if there are any High/Criticals
+      - name: Create/Update triage issue when risk found
+        if: ${{ env.CRITICAL_COUNT != '0' || env.HIGH_COUNT != '0' }}
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: "Security Triage — ${{ env.CRITICAL_COUNT }} critical / ${{ env.HIGH_COUNT }} high"
+          content-filepath: ./triage-high.md
+          labels: security, triage, high-priority
+          assignees: ""
