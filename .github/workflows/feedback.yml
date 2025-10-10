@@ -74,7 +74,7 @@ jobs:
       - name: Label risky PRs
         if: success()
         run: |
-          if grep -q "feedback.md; then
+          if grep -q "⚠️" feedback.md; then
             gh pr edit ${{ github.event.pull_request.number }} --add-label "security-risk"
           else
             gh pr edit ${{ github.event.pull_request.number }} --add-label "security-clean"
