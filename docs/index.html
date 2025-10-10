@@ -4,24 +4,92 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>VulnFlask-SecureCI — Security Dashboard</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+
 <style>
+  :root {
+    --ok: #16a34a;      /* green 600 */
+    --warn: #f59e0b;    /* amber 500 */
+    --fail: #ef4444;    /* red 500 */
+    --muted: #6b7280;   /* gray 500 */
+    --border: #e5e7eb;  /* gray 200 */
+  }
   body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 32px; color: #111; }
   h1 { font-size: 24px; margin-bottom: 4px; }
-  .muted { color: #666; font-size: 14px; }
+  h2 { font-size: 18px; margin: 0 0 8px 0; }
+  .muted { color: var(--muted); font-size: 14px; }
   table { border-collapse: collapse; width: 100%; margin-top: 16px; }
-  th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+  th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
   th { background: #f9fafb; }
-  .ok { color: #157347; }
-  .warn { color: #b26a00; }
-  .na { color: #6b7280; }
-  .footer { margin-top: 24px; font-size: 13px; color: #6b7280; }
+  .ok { color: var(--ok); }
+  .warn { color: var(--warn); }
+  .na { color: var(--muted); }
+  .footer { margin-top: 24px; font-size: 13px; color: var(--muted); }
   .links a { margin-right: 12px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    align-items: start;
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  /* Gauge center label */
+  .gauge-wrap {
+    position: relative;
+    height: 220px;
+  }
+  .gauge-label {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .grade {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 8px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
 </style>
 </head>
 <body>
   <h1>VulnFlask-SecureCI — Security Dashboard</h1>
-  <div class="muted">Generated: 2025-10-10 00:33:39 UTC</div>
+  <div class="muted" id="generatedStamp">Generated: —</div>
 
+  <!-- New visuals -->
+  <div class="grid">
+    <div class="card">
+      <h2>Posture Score</h2>
+      <div class="gauge-wrap">
+        <canvas id="gaugeCanvas" height="220"></canvas>
+        <div id="gaugeScore" class="gauge-label">—</div>
+        <div id="gaugeGrade" class="grade">Grade: —</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Finding Trends</h2>
+      <canvas id="trendCanvas" height="220"></canvas>
+      <div class="muted" style="margin-top:8px" id="trendNote">
+        Showing last runs for Critical/High/Medium/Low. If nothing appears, run analytics to generate insights history.
+      </div>
+    </div>
+  </div>
+
+  <!-- Your existing summary table (static example retained) -->
   <table>
     <thead>
       <tr><th>Tool</th><th>Status</th><th>Findings</th></tr>
@@ -36,15 +104,151 @@
   </table>
 
   <div class="footer">
-    Missing = N/A (scan not run). This page is updated by CI (Day 12).
+    Missing = N/A (scan not run). This page is updated by CI (Day 12+16).
   </div>
   <div class="links" style="margin-top:12px;">
     <a href="../security-report.md">security-report.md</a>
+    <a href="./insights.json">insights.json</a>
     <a href="../bandit-report.json">bandit-report.json</a>
     <a href="../semgrep-report.json">semgrep-report.json</a>
     <a href="../pip-audit-report.json">pip-audit-report.json</a>
     <a href="../trivy-report.json">trivy-report.json</a>
     <a href="../report_html.html">zap-report.html</a>
   </div>
+
+<script>
+/* ---------- helpers ---------- */
+const byId = (id) => document.getElementById(id);
+const colorForScore = (s) => (s >= 85 ? getCSS('--ok') : s >= 70 ? getCSS('--warn') : getCSS('--fail'));
+function getCSS(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+/* Try multiple locations so it "just works" whether insights.json is in docs/ or repo root */
+async function loadInsights() {
+  const candidates = ['insights.json', './insights.json', '../insights.json', '/insights.json'];
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (res.ok) return await res.json();
+    } catch (e) { /* ignore */ }
+  }
+  return null;
+}
+
+/* ---------- charts ---------- */
+let gaugeChart, trendChart;
+
+function drawGauge(score, grade) {
+  const ctx = byId('gaugeCanvas').getContext('2d');
+  const fg = colorForScore(score);
+  const bg = '#e5e7eb';
+
+  if (gaugeChart) gaugeChart.destroy();
+  gaugeChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Score', 'Remaining'],
+      datasets: [{
+        data: [score, Math.max(0, 100 - score)],
+        backgroundColor: [fg, bg],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '70%',
+      rotation: -90,         // start at 12 o'clock
+      circumference: 180,    // half circle gauge
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      }
+    }
+  });
+
+  byId('gaugeScore').textContent = `${Math.round(score)}%`;
+  byId('gaugeGrade').textContent = `Grade: ${grade || '-'}`;
+}
+
+function drawTrend(history) {
+  const ctx = byId('trendCanvas').getContext('2d');
+
+  if (!Array.isArray(history) || history.length === 0) {
+    if (trendChart) trendChart.destroy();
+    byId('trendNote').textContent = 'No history yet. Run analytics to build trends.';
+    return;
+  }
+
+  // Normalize history shape: accept {ts} or {time} or {date}; severities under history[i].totals or top-level keys
+  const L = Math.min(12, history.length); // last 12 runs
+  const slice = history.slice(-L);
+
+  const labels = slice.map(h => {
+    const t = h.ts || h.time || h.date || h.timestamp || '';
+    const d = t ? new Date(t) : new Date();
+    return d.toLocaleDateString();
+  });
+
+  const val = (h, k) =>
+    (h.totals && typeof h.totals[k] === 'number') ? h.totals[k] :
+    (typeof h[k] === 'number' ? h[k] : 0);
+
+  const dataCritical = slice.map(h => val(h, 'critical'));
+  const dataHigh     = slice.map(h => val(h, 'high'));
+  const dataMedium   = slice.map(h => val(h, 'medium'));
+  const dataLow      = slice.map(h => val(h, 'low'));
+
+  if (trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Critical', data: dataCritical, borderColor: '#7f1d1d', backgroundColor: '#7f1d1d', tension: 0.25 },
+        { label: 'High',     data: dataHigh,     borderColor: '#dc2626', backgroundColor: '#dc2626', tension: 0.25 },
+        { label: 'Medium',   data: dataMedium,   borderColor: '#f59e0b', backgroundColor: '#f59e0b', tension: 0.25 },
+        { label: 'Low',      data: dataLow,      borderColor: '#60a5fa', backgroundColor: '#60a5fa', tension: 0.25 },
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' }
+      },
+      scales: {
+        y: { beginAtZero: true, ticks: { precision: 0 } }
+      }
+    }
+  });
+}
+
+/* ---------- bootstrap ---------- */
+(async function init() {
+  const insights = await loadInsights();
+  if (!insights) {
+    drawGauge(0, '-');
+    drawTrend([]);
+    byId('generatedStamp').textContent = 'Generated: — (insights.json missing)';
+    return;
+  }
+
+  // Stamp
+  const ts = insights.generated || insights.timestamp || insights.ts || new Date().toISOString();
+  try {
+    const d = new Date(ts);
+    byId('generatedStamp').textContent = `Generated: ${d.toISOString().replace('T', ' ').replace('Z', ' UTC')}`;
+  } catch {
+    byId('generatedStamp').textContent = `Generated: ${ts}`;
+  }
+
+  // Gauge
+  const score = typeof insights.score === 'number' ? insights.score : 0;
+  const grade = insights.grade || '-';
+  drawGauge(score, grade);
+
+  // Trend
+  const history = Array.isArray(insights.history) ? insights.history : [];
+  drawTrend(history);
+})();
+</script>
 </body>
 </html>
