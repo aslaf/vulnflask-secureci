@@ -8,11 +8,12 @@ on:
     - cron: "0 9 * * 1"  # Mondays 09:00 UTC
 
 permissions:
-  contents: write        # allow analytics refresh + docs update
+  contents: write  # allow analytics refresh + docs update
 
 jobs:
   notify:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,23 +28,24 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      # --- Step 1: Ensure insights.json is up to date ---
+      # --- Step 1: Generate or refresh insights.json ---
       - name: Generate insights
         run: |
           python3 scripts/aggregate_insights.py
-          cp insights.json docs/ || true
+          mkdir -p docs
+          cp insights.json docs/insights.json
           echo "✅ Generated insights.json:"
           cat insights.json || true
 
-      # --- Step 2: Commit new insights (optional, keeps dashboard current) ---
+      # --- Step 2: Commit insights back to repo ---
       - name: Commit insights back to repo
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet insights.json; then
             git add insights.json docs/insights.json
-            git commit -m "chore: refresh insights before Slack summary [skip ci]"
-            git push
+            git commit -m "chore: refresh insights before Slack summary [skip ci]" || true
+            git push || true
           else
             echo "No new insights to commit."
           fi
@@ -53,3 +55,10 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: python3 scripts/notify_slack.py
+
+      # --- Optional Step 4: GitHub Pages sync (only if needed) ---
+      # - name: Trigger GitHub Pages rebuild
+      #   run: |
+      #     echo "🔁 Pages rebuild triggered to reflect updated insights.json"
+      #     curl -X POST -u "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" \
+      #       https://api.github.com/repos/${{ github.repository }}/pages/builds
