@@ -37,6 +37,11 @@ jobs:
           echo "✅ Generated insights.json:"
           cat insights.json || true
 
+      - name: Copy reports to docs/
+        run: |
+          mkdir -p docs
+          cp bandit-report.json semgrep-report.json pip-audit-report.json trivy-report.json security-report.md docs/ || true
+
       # --- Step 2: Commit insights back to repo ---
       - name: Commit insights back to repo
         run: |
