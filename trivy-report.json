@@ -1,116 +1,116 @@
 {
   "SchemaVersion": 2,
-  "CreatedAt": "2025-10-08T19:28:26.501026-04:00",
-  "ArtifactName": "vulnflask-secureci",
+  "CreatedAt": "2025-10-11T02:08:22.842035-04:00",
+  "ArtifactName": "vulnflask:latest",
   "ArtifactType": "container_image",
   "Metadata": {
-    "Size": 192701952,
+    "Size": 200791552,
     "OS": {
       "Family": "debian",
       "Name": "13.1"
     },
-    "ImageID": "sha256:7df83c64f9f26bc9d4951bfa017257792c93d57246ce4eafb9714e100d3de159",
+    "ImageID": "sha256:ac10afa706d9138aa51501c4b5f508adb9ecfc257afe8ee4da691579b5f11856",
     "DiffIDs": [
       "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704",
-      "sha256:b5f46bacda6cba0c07b2e809ebb5ec5109dce370759b87492b453448f15195d8",
-      "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219",
-      "sha256:66044e4b63421534370294a112f82183137ede45e10e99cabf7097955ee5ef4b",
-      "sha256:0ef9e2e37f337b71bc21a95ae42b14e34d21f232af120aad9120078c79627d76",
-      "sha256:d8725ce10fc743e218c3e928f09c0c397b695a5db771ee1b78c07242c2506afc",
-      "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5",
-      "sha256:bf91fd88b5438712304a51442d44b33ceb5be107e3cb5f07d894c738b96cd5a4"
+      "sha256:eaa42ec74a57a9a7e19f4f9b4b311cadc49bc724465fafe0933e3c9d47e1759d",
+      "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41",
+      "sha256:e54cc31c0b70889357e49bb5febf5bfa92f8a270f13cebb27892c26ac221e750",
+      "sha256:e063bcb0db2852e8243b9fe5dd4b47d0943e8e726286a190cbb4be7a74f563cd",
+      "sha256:dea0055d2553cccd2de453c155259e7030b3986fbfb5ab891faf9703f08c542e",
+      "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f",
+      "sha256:40aa9d2d9f3801ef544ba7ff26ff4cab7f0cb14a470008427ecc006b5995a56e"
     ],
     "RepoTags": [
-      "vulnflask-secureci:latest"
+      "vulnflask:latest"
     ],
     "ImageConfig": {
       "architecture": "arm64",
-      "created": "2025-10-08T23:25:57.699990709Z",
+      "created": "2025-10-11T06:08:14.057728881Z",
       "history": [
         {
-          "created": "2025-08-08T18:20:34Z",
+          "created": "2025-09-29T00:00:00Z",
           "created_by": "# debian.sh --arch 'arm64' out/ 'trixie' '@1759104000'",
           "comment": "debuerreotype 0.16"
         },
         {
-          "created": "2025-08-08T18:20:34Z",
+          "created": "2025-10-09T15:49:21Z",
           "created_by": "ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-08-08T18:20:34Z",
+          "created": "2025-10-09T15:49:21Z",
           "created_by": "ENV LANG=C.UTF-8",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-08-08T18:20:34Z",
+          "created": "2025-10-09T15:49:21Z",
           "created_by": "RUN /bin/sh -c set -eux; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tca-certificates \t\tnetbase \t\ttzdata \t; \tapt-get dist-clean # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-08-08T18:20:34Z",
+          "created": "2025-10-09T15:49:21Z",
           "created_by": "ENV GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-08-08T18:20:34Z",
-          "created_by": "ENV PYTHON_VERSION=3.12.11",
+          "created": "2025-10-09T15:49:21Z",
+          "created_by": "ENV PYTHON_VERSION=3.12.12",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-08-08T18:20:34Z",
-          "created_by": "ENV PYTHON_SHA256=c30bb24b7f1e9a19b11b55a546434f74e739bb4c271a3e3a80ff4380d49f7adb",
+          "created": "2025-10-09T15:49:21Z",
+          "created_by": "ENV PYTHON_SHA256=fb85a13414b028c49ba18bbd523c2d055a30b56b18b92ce454ea2c51edc656c4",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-08-08T18:20:34Z",
+          "created": "2025-10-09T15:49:21Z",
           "created_by": "RUN /bin/sh -c set -eux; \t\tsavedAptMark=\"$(apt-mark showmanual)\"; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tdpkg-dev \t\tgcc \t\tgnupg \t\tlibbluetooth-dev \t\tlibbz2-dev \t\tlibc6-dev \t\tlibdb-dev \t\tlibffi-dev \t\tlibgdbm-dev \t\tliblzma-dev \t\tlibncursesw5-dev \t\tlibreadline-dev \t\tlibsqlite3-dev \t\tlibssl-dev \t\tmake \t\ttk-dev \t\tuuid-dev \t\twget \t\txz-utils \t\tzlib1g-dev \t; \t\twget -O python.tar.xz \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz\"; \techo \"$PYTHON_SHA256 *python.tar.xz\" | sha256sum -c -; \twget -O python.tar.xz.asc \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc\"; \tGNUPGHOME=\"$(mktemp -d)\"; export GNUPGHOME; \tgpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$GPG_KEY\"; \tgpg --batch --verify python.tar.xz.asc python.tar.xz; \tgpgconf --kill all; \trm -rf \"$GNUPGHOME\" python.tar.xz.asc; \tmkdir -p /usr/src/python; \ttar --extract --directory /usr/src/python --strip-components=1 --file python.tar.xz; \trm python.tar.xz; \t\tcd /usr/src/python; \tgnuArch=\"$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)\"; \t./configure \t\t--build=\"$gnuArch\" \t\t--enable-loadable-sqlite-extensions \t\t--enable-optimizations \t\t--enable-option-checking=fatal \t\t--enable-shared \t\t$(test \"${gnuArch%%-*}\" != 'riscv64' \u0026\u0026 echo '--with-lto') \t\t--with-ensurepip \t; \tnproc=\"$(nproc)\"; \tEXTRA_CFLAGS=\"$(dpkg-buildflags --get CFLAGS)\"; \tLDFLAGS=\"$(dpkg-buildflags --get LDFLAGS)\"; \tLDFLAGS=\"${LDFLAGS:--Wl},--strip-all\"; \t\tarch=\"$(dpkg --print-architecture)\"; arch=\"${arch##*-}\"; \t\tcase \"$arch\" in \t\t\tamd64|arm64) \t\t\t\tEXTRA_CFLAGS=\"${EXTRA_CFLAGS:-} -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer\"; \t\t\t\t;; \t\t\ti386) \t\t\t\t;; \t\t\t*) \t\t\t\tEXTRA_CFLAGS=\"${EXTRA_CFLAGS:-} -fno-omit-frame-pointer\"; \t\t\t\t;; \t\tesac; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-}\" \t; \trm python; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:--Wl},-rpath='\\$\\$ORIGIN/../lib'\" \t\tpython \t; \tmake install; \t\tcd /; \trm -rf /usr/src/python; \t\tfind /usr/local -depth \t\t\\( \t\t\t\\( -type d -a \\( -name test -o -name tests -o -name idle_test \\) \\) \t\t\t-o \\( -type f -a \\( -name '*.pyc' -o -name '*.pyo' -o -name 'libpython*.a' \\) \\) \t\t\\) -exec rm -rf '{}' + \t; \t\tldconfig; \t\tapt-mark auto '.*' \u003e /dev/null; \tapt-mark manual $savedAptMark; \tfind /usr/local -type f -executable -not \\( -name '*tkinter*' \\) -exec ldd '{}' ';' \t\t| awk '/=\u003e/ { so = $(NF-1); if (index(so, \"/usr/local/\") == 1) { next }; gsub(\"^/(usr/)?\", \"\", so); printf \"*%s\\n\", so }' \t\t| sort -u \t\t| xargs -rt dpkg-query --search \t\t| awk 'sub(\":$\", \"\", $1) { print $1 }' \t\t| sort -u \t\t| xargs -r apt-mark manual \t; \tapt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \tapt-get dist-clean; \t\texport PYTHONDONTWRITEBYTECODE=1; \tpython3 --version; \tpip3 --version # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-08-08T18:20:34Z",
+          "created": "2025-10-09T15:49:21Z",
           "created_by": "RUN /bin/sh -c set -eux; \tfor src in idle3 pip3 pydoc3 python3 python3-config; do \t\tdst=\"$(echo \"$src\" | tr -d 3)\"; \t\t[ -s \"/usr/local/bin/$src\" ]; \t\t[ ! -e \"/usr/local/bin/$dst\" ]; \t\tln -svT \"$src\" \"/usr/local/bin/$dst\"; \tdone # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-08-08T18:20:34Z",
+          "created": "2025-10-09T15:49:21Z",
           "created_by": "CMD [\"python3\"]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-10-08T23:22:31Z",
+          "created": "2025-10-11T06:08:09Z",
           "created_by": "WORKDIR /app",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-10-08T23:22:31Z",
+          "created": "2025-10-11T06:08:09Z",
           "created_by": "COPY requirements.txt . # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-10-08T23:22:34Z",
+          "created": "2025-10-11T06:08:14Z",
           "created_by": "RUN /bin/sh -c pip install --no-cache-dir -r requirements.txt # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-10-08T23:25:57Z",
+          "created": "2025-10-11T06:08:14Z",
           "created_by": "COPY app/ app/ # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-10-08T23:25:57Z",
+          "created": "2025-10-11T06:08:14Z",
           "created_by": "EXPOSE map[5000/tcp:{}]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-10-08T23:25:57Z",
+          "created": "2025-10-11T06:08:14Z",
           "created_by": "CMD [\"python\" \"app/app.py\"]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
@@ -121,13 +121,13 @@
         "type": "layers",
         "diff_ids": [
           "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704",
-          "sha256:b5f46bacda6cba0c07b2e809ebb5ec5109dce370759b87492b453448f15195d8",
-          "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219",
-          "sha256:66044e4b63421534370294a112f82183137ede45e10e99cabf7097955ee5ef4b",
-          "sha256:0ef9e2e37f337b71bc21a95ae42b14e34d21f232af120aad9120078c79627d76",
-          "sha256:d8725ce10fc743e218c3e928f09c0c397b695a5db771ee1b78c07242c2506afc",
-          "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5",
-          "sha256:bf91fd88b5438712304a51442d44b33ceb5be107e3cb5f07d894c738b96cd5a4"
+          "sha256:eaa42ec74a57a9a7e19f4f9b4b311cadc49bc724465fafe0933e3c9d47e1759d",
+          "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41",
+          "sha256:e54cc31c0b70889357e49bb5febf5bfa92f8a270f13cebb27892c26ac221e750",
+          "sha256:e063bcb0db2852e8243b9fe5dd4b47d0943e8e726286a190cbb4be7a74f563cd",
+          "sha256:dea0055d2553cccd2de453c155259e7030b3986fbfb5ab891faf9703f08c542e",
+          "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f",
+          "sha256:40aa9d2d9f3801ef544ba7ff26ff4cab7f0cb14a470008427ecc006b5995a56e"
         ]
       },
       "config": {
@@ -139,8 +139,8 @@
           "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
           "LANG=C.UTF-8",
           "GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305",
-          "PYTHON_VERSION=3.12.11",
-          "PYTHON_SHA256=c30bb24b7f1e9a19b11b55a546434f74e739bb4c271a3e3a80ff4380d49f7adb"
+          "PYTHON_VERSION=3.12.12",
+          "PYTHON_SHA256=fb85a13414b028c49ba18bbd523c2d055a30b56b18b92ce454ea2c51edc656c4"
         ],
         "WorkingDir": "/app",
         "ExposedPorts": {
@@ -155,38 +155,38 @@
         "DiffID": "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704"
       },
       {
-        "Size": 4171776,
-        "DiffID": "sha256:b5f46bacda6cba0c07b2e809ebb5ec5109dce370759b87492b453448f15195d8"
+        "Size": 12248576,
+        "DiffID": "sha256:eaa42ec74a57a9a7e19f4f9b4b311cadc49bc724465fafe0933e3c9d47e1759d"
       },
       {
-        "Size": 41357824,
-        "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+        "Size": 41365504,
+        "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
       },
       {
         "Size": 5120,
-        "DiffID": "sha256:66044e4b63421534370294a112f82183137ede45e10e99cabf7097955ee5ef4b"
+        "DiffID": "sha256:e54cc31c0b70889357e49bb5febf5bfa92f8a270f13cebb27892c26ac221e750"
       },
       {
         "Size": 1536,
-        "DiffID": "sha256:0ef9e2e37f337b71bc21a95ae42b14e34d21f232af120aad9120078c79627d76"
+        "DiffID": "sha256:e063bcb0db2852e8243b9fe5dd4b47d0943e8e726286a190cbb4be7a74f563cd"
       },
       {
         "Size": 2560,
-        "DiffID": "sha256:d8725ce10fc743e218c3e928f09c0c397b695a5db771ee1b78c07242c2506afc"
+        "DiffID": "sha256:dea0055d2553cccd2de453c155259e7030b3986fbfb5ab891faf9703f08c542e"
       },
       {
-        "Size": 44083712,
-        "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+        "Size": 44087808,
+        "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
       },
       {
-        "Size": 34304,
-        "DiffID": "sha256:bf91fd88b5438712304a51442d44b33ceb5be107e3cb5f07d894c738b96cd5a4"
+        "Size": 35328,
+        "DiffID": "sha256:40aa9d2d9f3801ef544ba7ff26ff4cab7f0cb14a470008427ecc006b5995a56e"
       }
     ]
   },
   "Results": [
     {
-      "Target": "vulnflask-secureci (debian 13.1)",
+      "Target": "vulnflask:latest (debian 13.1)",
       "Class": "os-pkgs",
       "Type": "debian",
       "Packages": [
@@ -210,7 +210,7 @@
             "passwd@1:4.17.4-2"
           ],
           "Layer": {
-            "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+            "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
           },
           "InstalledFiles": [
             "/usr/sbin/adduser",
@@ -277,7 +277,7 @@
           "Name": "apt",
           "Identifier": {
             "PURL": "pkg:deb/debian/apt@3.0.3?arch=arm64\u0026distro=debian-13.1",
-            "UID": "2d6925033873f574"
+            "UID": "124fc00d4b0d0dee"
           },
           "Version": "3.0.3",
           "Arch": "arm64",
@@ -299,7 +299,7 @@
             "libc6@2.41-12",
             "libgcc-s1@14.2.0-19",
             "libseccomp2@2.6.0-2",
-            "libssl3t64@3.5.1-1",
+            "libssl3t64@3.5.1-1+deb13u1",
             "libstdc++6@14.2.0-19",
             "libsystemd0@257.8-1~deb13u2",
             "sqv@1.3.0-3"
@@ -757,7 +757,7 @@
           "Name": "ca-certificates",
           "Identifier": {
             "PURL": "pkg:deb/debian/ca-certificates@20250419?arch=all\u0026distro=debian-13.1",
-            "UID": "d3e2cc47d513e178"
+            "UID": "bcbbfb6dcdbd65a7"
           },
           "Version": "20250419",
           "Arch": "all",
@@ -771,10 +771,10 @@
           "Maintainer": "Julien Cristau \u003cjcristau@debian.org\u003e",
           "DependsOn": [
             "debconf@1.5.91",
-            "openssl@3.5.1-1"
+            "openssl@3.5.1-1+deb13u1"
           ],
           "Layer": {
-            "DiffID": "sha256:b5f46bacda6cba0c07b2e809ebb5ec5109dce370759b87492b453448f15195d8"
+            "DiffID": "sha256:eaa42ec74a57a9a7e19f4f9b4b311cadc49bc724465fafe0933e3c9d47e1759d"
           },
           "InstalledFiles": [
             "/usr/sbin/update-ca-certificates",
@@ -2196,7 +2196,7 @@
           "Name": "libapt-pkg7.0",
           "Identifier": {
             "PURL": "pkg:deb/debian/libapt-pkg7.0@3.0.3?arch=arm64\u0026distro=debian-13.1",
-            "UID": "69235adbeaff19"
+            "UID": "5dbb2df766f30c87"
           },
           "Version": "3.0.3",
           "Arch": "arm64",
@@ -2216,7 +2216,7 @@
             "libgcc-s1@14.2.0-19",
             "liblz4-1@1.10.0-4",
             "liblzma5@5.8.1-1",
-            "libssl3t64@3.5.1-1",
+            "libssl3t64@3.5.1-1+deb13u1",
             "libstdc++6@14.2.0-19",
             "libsystemd0@257.8-1~deb13u2",
             "libudev1@257.8-1~deb13u2",
@@ -3132,7 +3132,7 @@
             "libc6@2.41-12"
           ],
           "Layer": {
-            "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+            "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
           },
           "InstalledFiles": [
             "/usr/lib/aarch64-linux-gnu/libffi.so.8.1.4",
@@ -3191,7 +3191,7 @@
             "libc6@2.41-12"
           ],
           "Layer": {
-            "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+            "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
           },
           "InstalledFiles": [
             "/usr/lib/aarch64-linux-gnu/libgdbm.so.6.0.0",
@@ -3515,7 +3515,7 @@
             "libtinfo6@6.5+20250216-2"
           ],
           "Layer": {
-            "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+            "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
           },
           "InstalledFiles": [
             "/usr/lib/aarch64-linux-gnu/libformw.so.6.5",
@@ -4015,7 +4015,7 @@
             "readline-common@8.2-6"
           ],
           "Layer": {
-            "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+            "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
           },
           "InstalledFiles": [
             "/usr/lib/aarch64-linux-gnu/libhistory.so.8.2",
@@ -4271,18 +4271,18 @@
           ]
         },
         {
-          "ID": "libssl3t64@3.5.1-1",
+          "ID": "libssl3t64@3.5.1-1+deb13u1",
           "Name": "libssl3t64",
           "Identifier": {
-            "PURL": "pkg:deb/debian/libssl3t64@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "45aaf0f56372a266"
+            "PURL": "pkg:deb/debian/libssl3t64@3.5.1-1%2Bdeb13u1?arch=arm64\u0026distro=debian-13.1",
+            "UID": "2882e1ccb0a8abb4"
           },
           "Version": "3.5.1",
-          "Release": "1",
+          "Release": "1+deb13u1",
           "Arch": "arm64",
           "SrcName": "openssl",
           "SrcVersion": "3.5.1",
-          "SrcRelease": "1",
+          "SrcRelease": "1+deb13u1",
           "Licenses": [
             "Apache-2.0",
             "Artistic-2.0",
@@ -4293,11 +4293,11 @@
           "DependsOn": [
             "libc6@2.41-12",
             "libzstd1@1.5.7+dfsg-1",
-            "openssl-provider-legacy@3.5.1-1",
+            "openssl-provider-legacy@3.5.1-1+deb13u1",
             "zlib1g@1:1.3.dfsg+really1.3.1-1+b1"
           ],
           "Layer": {
-            "DiffID": "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704"
+            "DiffID": "sha256:eaa42ec74a57a9a7e19f4f9b4b311cadc49bc724465fafe0933e3c9d47e1759d"
           },
           "InstalledFiles": [
             "/usr/lib/aarch64-linux-gnu/engines-3/afalg.so",
@@ -4928,7 +4928,7 @@
           ],
           "Maintainer": "Marco d'Itri \u003cmd@linux.it\u003e",
           "Layer": {
-            "DiffID": "sha256:b5f46bacda6cba0c07b2e809ebb5ec5109dce370759b87492b453448f15195d8"
+            "DiffID": "sha256:eaa42ec74a57a9a7e19f4f9b4b311cadc49bc724465fafe0933e3c9d47e1759d"
           },
           "InstalledFiles": [
             "/usr/share/doc/netbase/changelog.gz",
@@ -4936,18 +4936,18 @@
           ]
         },
         {
-          "ID": "openssl@3.5.1-1",
+          "ID": "openssl@3.5.1-1+deb13u1",
           "Name": "openssl",
           "Identifier": {
-            "PURL": "pkg:deb/debian/openssl@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "7b2647fbdb190476"
+            "PURL": "pkg:deb/debian/openssl@3.5.1-1%2Bdeb13u1?arch=arm64\u0026distro=debian-13.1",
+            "UID": "6c67c3a7938136f1"
           },
           "Version": "3.5.1",
-          "Release": "1",
+          "Release": "1+deb13u1",
           "Arch": "arm64",
           "SrcName": "openssl",
           "SrcVersion": "3.5.1",
-          "SrcRelease": "1",
+          "SrcRelease": "1+deb13u1",
           "Licenses": [
             "Apache-2.0",
             "Artistic-2.0",
@@ -4957,10 +4957,10 @@
           "Maintainer": "Debian OpenSSL Team \u003cpkg-openssl-devel@alioth-lists.debian.net\u003e",
           "DependsOn": [
             "libc6@2.41-12",
-            "libssl3t64@3.5.1-1"
+            "libssl3t64@3.5.1-1+deb13u1"
           ],
           "Layer": {
-            "DiffID": "sha256:b5f46bacda6cba0c07b2e809ebb5ec5109dce370759b87492b453448f15195d8"
+            "DiffID": "sha256:eaa42ec74a57a9a7e19f4f9b4b311cadc49bc724465fafe0933e3c9d47e1759d"
           },
           "InstalledFiles": [
             "/usr/bin/c_rehash",
@@ -5205,18 +5205,18 @@
           ]
         },
         {
-          "ID": "openssl-provider-legacy@3.5.1-1",
+          "ID": "openssl-provider-legacy@3.5.1-1+deb13u1",
           "Name": "openssl-provider-legacy",
           "Identifier": {
-            "PURL": "pkg:deb/debian/openssl-provider-legacy@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "542851a7250a116e"
+            "PURL": "pkg:deb/debian/openssl-provider-legacy@3.5.1-1%2Bdeb13u1?arch=arm64\u0026distro=debian-13.1",
+            "UID": "ac464df54cf53473"
           },
           "Version": "3.5.1",
-          "Release": "1",
+          "Release": "1+deb13u1",
           "Arch": "arm64",
           "SrcName": "openssl",
           "SrcVersion": "3.5.1",
-          "SrcRelease": "1",
+          "SrcRelease": "1+deb13u1",
           "Licenses": [
             "Apache-2.0",
             "Artistic-2.0",
@@ -5226,10 +5226,10 @@
           "Maintainer": "Debian OpenSSL Team \u003cpkg-openssl-devel@alioth-lists.debian.net\u003e",
           "DependsOn": [
             "libc6@2.41-12",
-            "libssl3t64@3.5.1-1"
+            "libssl3t64@3.5.1-1+deb13u1"
           ],
           "Layer": {
-            "DiffID": "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704"
+            "DiffID": "sha256:eaa42ec74a57a9a7e19f4f9b4b311cadc49bc724465fafe0933e3c9d47e1759d"
           },
           "InstalledFiles": [
             "/usr/lib/aarch64-linux-gnu/ossl-modules/legacy.so",
@@ -6299,7 +6299,7 @@
           ],
           "Maintainer": "Matthias Klose \u003cdoko@debian.org\u003e",
           "Layer": {
-            "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+            "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
           },
           "InstalledFiles": [
             "/usr/share/doc/readline-common/changelog.Debian.gz",
@@ -7367,7 +7367,7 @@
           "PkgName": "apt",
           "PkgIdentifier": {
             "PURL": "pkg:deb/debian/apt@3.0.3?arch=arm64\u0026distro=debian-13.1",
-            "UID": "2d6925033873f574"
+            "UID": "124fc00d4b0d0dee"
           },
           "InstalledVersion": "3.0.3",
           "Status": "affected",
@@ -7607,7 +7607,7 @@
           "PkgName": "libapt-pkg7.0",
           "PkgIdentifier": {
             "PURL": "pkg:deb/debian/libapt-pkg7.0@3.0.3?arch=arm64\u0026distro=debian-13.1",
-            "UID": "69235adbeaff19"
+            "UID": "5dbb2df766f30c87"
           },
           "InstalledVersion": "3.0.3",
           "Status": "affected",
@@ -8601,7 +8601,7 @@
           "InstalledVersion": "6.5+20250216-2",
           "Status": "affected",
           "Layer": {
-            "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+            "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
           },
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-6141",
           "DataSource": {
@@ -8798,167 +8798,6 @@
           ],
           "PublishedDate": "2022-02-14T19:15:07.793Z",
           "LastModifiedDate": "2024-11-21T06:32:07.577Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9230",
-          "VendorIDs": [
-            "DSA-6015-1"
-          ],
-          "PkgID": "libssl3t64@3.5.1-1",
-          "PkgName": "libssl3t64",
-          "PkgIdentifier": {
-            "PURL": "pkg:deb/debian/libssl3t64@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "45aaf0f56372a266"
-          },
-          "InstalledVersion": "3.5.1-1",
-          "FixedVersion": "3.5.1-1+deb13u1",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9230",
-          "DataSource": {
-            "ID": "debian",
-            "Name": "Debian Security Tracker",
-            "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-          },
-          "Title": "openssl: Out-of-bounds read \u0026 write in RFC 3211 KEK Unwrap",
-          "Description": "Issue summary: An application trying to decrypt CMS messages encrypted using\npassword based encryption can trigger an out-of-bounds read and write.\n\nImpact summary: This out-of-bounds read may trigger a crash which leads to\nDenial of Service for an application. The out-of-bounds write can cause\na memory corruption which can have various consequences including\na Denial of Service or Execution of attacker-supplied code.\n\nAlthough the consequences of a successful exploit of this vulnerability\ncould be severe, the probability that the attacker would be able to\nperform it is low. Besides, password based (PWRI) encryption support in CMS\nmessages is very rarely used. For that reason the issue was assessed as\nModerate severity according to our Security Policy.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the CMS implementation is outside the OpenSSL FIPS module\nboundary.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-125",
-            "CWE-787"
-          ],
-          "VendorSeverity": {
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
-              "V3Score": 5.6
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9230",
-            "https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45",
-            "https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280",
-            "https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def",
-            "https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd",
-            "https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482",
-            "https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3",
-            "https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9230",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9230"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.05Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9231",
-          "PkgID": "libssl3t64@3.5.1-1",
-          "PkgName": "libssl3t64",
-          "PkgIdentifier": {
-            "PURL": "pkg:deb/debian/libssl3t64@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "45aaf0f56372a266"
-          },
-          "InstalledVersion": "3.5.1-1",
-          "FixedVersion": "3.5.1-1+deb13u1",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9231",
-          "DataSource": {
-            "ID": "debian",
-            "Name": "Debian Security Tracker",
-            "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-          },
-          "Title": "openssl: Timing side-channel in SM2 algorithm on 64 bit ARM",
-          "Description": "Issue summary: A timing side-channel which could potentially allow remote\nrecovery of the private key exists in the SM2 algorithm implementation on 64 bit\nARM platforms.\n\nImpact summary: A timing side-channel in SM2 signature computations on 64 bit\nARM platforms could allow recovering the private key by an attacker..\n\nWhile remote key recovery over a network was not attempted by the reporter,\ntiming measurements revealed a timing signal which may allow such an attack.\n\nOpenSSL does not directly support certificates with SM2 keys in TLS, and so\nthis CVE is not relevant in most TLS contexts.  However, given that it is\npossible to add support for such certificates via a custom provider, coupled\nwith the fact that in such a custom provider context the private key may be\nrecoverable via remote timing measurements, we consider this to be a Moderate\nseverity issue.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as SM2 is not an approved algorithm.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-385"
-          ],
-          "VendorSeverity": {
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V3Score": 5.9
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9231",
-            "https://github.com/openssl/openssl/commit/567f64386e43683888212226824b6a179885a0fe",
-            "https://github.com/openssl/openssl/commit/cba616c26ac8e7b37de5e77762e505ba5ca51698",
-            "https://github.com/openssl/openssl/commit/eed5adc9f969d77c94f213767acbb41ff923b6f4",
-            "https://github.com/openssl/openssl/commit/fc47a2ec078912b3e914fab5734535e76c4820c2",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9231",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9231"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.19Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9232",
-          "VendorIDs": [
-            "DSA-6015-1"
-          ],
-          "PkgID": "libssl3t64@3.5.1-1",
-          "PkgName": "libssl3t64",
-          "PkgIdentifier": {
-            "PURL": "pkg:deb/debian/libssl3t64@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "45aaf0f56372a266"
-          },
-          "InstalledVersion": "3.5.1-1",
-          "FixedVersion": "3.5.1-1+deb13u1",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9232",
-          "DataSource": {
-            "ID": "debian",
-            "Name": "Debian Security Tracker",
-            "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-          },
-          "Title": "openssl: Out-of-bounds read in HTTP client no_proxy handling",
-          "Description": "Issue summary: An application using the OpenSSL HTTP client API functions may\ntrigger an out-of-bounds read if the 'no_proxy' environment variable is set and\nthe host portion of the authority component of the HTTP URL is an IPv6 address.\n\nImpact summary: An out-of-bounds read can trigger a crash which leads to\nDenial of Service for an application.\n\nThe OpenSSL HTTP client API functions can be used directly by applications\nbut they are also used by the OCSP client functions and CMP (Certificate\nManagement Protocol) client implementation in OpenSSL. However the URLs used\nby these implementations are unlikely to be controlled by an attacker.\n\nIn this vulnerable code the out of bounds read can only trigger a crash.\nFurthermore the vulnerability requires an attacker-controlled URL to be\npassed from an application to the OpenSSL function and the user has to have\na 'no_proxy' environment variable set. For the aforementioned reasons the\nissue was assessed as Low severity.\n\nThe vulnerable code was introduced in the following patch releases:\n3.0.16, 3.1.8, 3.2.4, 3.3.3, 3.4.0 and 3.5.0.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the HTTP client implementation is outside the OpenSSL FIPS module\nboundary.",
-          "Severity": "LOW",
-          "CweIDs": [
-            "CWE-125"
-          ],
-          "VendorSeverity": {
-            "redhat": 1,
-            "ubuntu": 1
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L",
-              "V3Score": 3.1
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9232",
-            "https://github.com/openssl/openssl/commit/2b4ec20e47959170422922eaff25346d362dcb35",
-            "https://github.com/openssl/openssl/commit/654dc11d23468a74fc8ea4672b702dd3feb7be4b",
-            "https://github.com/openssl/openssl/commit/7cf21a30513c9e43c4bc3836c237cf086e194af3",
-            "https://github.com/openssl/openssl/commit/89e790ac431125a4849992858490bed6b225eadf",
-            "https://github.com/openssl/openssl/commit/bbf38c034cdabd0a13330abcc4855c866f53d2e0",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9232",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9232"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.313Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
         },
         {
           "VulnerabilityID": "CVE-2013-4392",
@@ -9788,328 +9627,6 @@
           "LastModifiedDate": "2025-06-17T20:50:23.507Z"
         },
         {
-          "VulnerabilityID": "CVE-2025-9230",
-          "VendorIDs": [
-            "DSA-6015-1"
-          ],
-          "PkgID": "openssl@3.5.1-1",
-          "PkgName": "openssl",
-          "PkgIdentifier": {
-            "PURL": "pkg:deb/debian/openssl@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "7b2647fbdb190476"
-          },
-          "InstalledVersion": "3.5.1-1",
-          "FixedVersion": "3.5.1-1+deb13u1",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:b5f46bacda6cba0c07b2e809ebb5ec5109dce370759b87492b453448f15195d8"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9230",
-          "DataSource": {
-            "ID": "debian",
-            "Name": "Debian Security Tracker",
-            "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-          },
-          "Title": "openssl: Out-of-bounds read \u0026 write in RFC 3211 KEK Unwrap",
-          "Description": "Issue summary: An application trying to decrypt CMS messages encrypted using\npassword based encryption can trigger an out-of-bounds read and write.\n\nImpact summary: This out-of-bounds read may trigger a crash which leads to\nDenial of Service for an application. The out-of-bounds write can cause\na memory corruption which can have various consequences including\na Denial of Service or Execution of attacker-supplied code.\n\nAlthough the consequences of a successful exploit of this vulnerability\ncould be severe, the probability that the attacker would be able to\nperform it is low. Besides, password based (PWRI) encryption support in CMS\nmessages is very rarely used. For that reason the issue was assessed as\nModerate severity according to our Security Policy.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the CMS implementation is outside the OpenSSL FIPS module\nboundary.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-125",
-            "CWE-787"
-          ],
-          "VendorSeverity": {
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
-              "V3Score": 5.6
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9230",
-            "https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45",
-            "https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280",
-            "https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def",
-            "https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd",
-            "https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482",
-            "https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3",
-            "https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9230",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9230"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.05Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9231",
-          "PkgID": "openssl@3.5.1-1",
-          "PkgName": "openssl",
-          "PkgIdentifier": {
-            "PURL": "pkg:deb/debian/openssl@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "7b2647fbdb190476"
-          },
-          "InstalledVersion": "3.5.1-1",
-          "FixedVersion": "3.5.1-1+deb13u1",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:b5f46bacda6cba0c07b2e809ebb5ec5109dce370759b87492b453448f15195d8"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9231",
-          "DataSource": {
-            "ID": "debian",
-            "Name": "Debian Security Tracker",
-            "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-          },
-          "Title": "openssl: Timing side-channel in SM2 algorithm on 64 bit ARM",
-          "Description": "Issue summary: A timing side-channel which could potentially allow remote\nrecovery of the private key exists in the SM2 algorithm implementation on 64 bit\nARM platforms.\n\nImpact summary: A timing side-channel in SM2 signature computations on 64 bit\nARM platforms could allow recovering the private key by an attacker..\n\nWhile remote key recovery over a network was not attempted by the reporter,\ntiming measurements revealed a timing signal which may allow such an attack.\n\nOpenSSL does not directly support certificates with SM2 keys in TLS, and so\nthis CVE is not relevant in most TLS contexts.  However, given that it is\npossible to add support for such certificates via a custom provider, coupled\nwith the fact that in such a custom provider context the private key may be\nrecoverable via remote timing measurements, we consider this to be a Moderate\nseverity issue.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as SM2 is not an approved algorithm.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-385"
-          ],
-          "VendorSeverity": {
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V3Score": 5.9
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9231",
-            "https://github.com/openssl/openssl/commit/567f64386e43683888212226824b6a179885a0fe",
-            "https://github.com/openssl/openssl/commit/cba616c26ac8e7b37de5e77762e505ba5ca51698",
-            "https://github.com/openssl/openssl/commit/eed5adc9f969d77c94f213767acbb41ff923b6f4",
-            "https://github.com/openssl/openssl/commit/fc47a2ec078912b3e914fab5734535e76c4820c2",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9231",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9231"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.19Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9232",
-          "VendorIDs": [
-            "DSA-6015-1"
-          ],
-          "PkgID": "openssl@3.5.1-1",
-          "PkgName": "openssl",
-          "PkgIdentifier": {
-            "PURL": "pkg:deb/debian/openssl@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "7b2647fbdb190476"
-          },
-          "InstalledVersion": "3.5.1-1",
-          "FixedVersion": "3.5.1-1+deb13u1",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:b5f46bacda6cba0c07b2e809ebb5ec5109dce370759b87492b453448f15195d8"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9232",
-          "DataSource": {
-            "ID": "debian",
-            "Name": "Debian Security Tracker",
-            "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-          },
-          "Title": "openssl: Out-of-bounds read in HTTP client no_proxy handling",
-          "Description": "Issue summary: An application using the OpenSSL HTTP client API functions may\ntrigger an out-of-bounds read if the 'no_proxy' environment variable is set and\nthe host portion of the authority component of the HTTP URL is an IPv6 address.\n\nImpact summary: An out-of-bounds read can trigger a crash which leads to\nDenial of Service for an application.\n\nThe OpenSSL HTTP client API functions can be used directly by applications\nbut they are also used by the OCSP client functions and CMP (Certificate\nManagement Protocol) client implementation in OpenSSL. However the URLs used\nby these implementations are unlikely to be controlled by an attacker.\n\nIn this vulnerable code the out of bounds read can only trigger a crash.\nFurthermore the vulnerability requires an attacker-controlled URL to be\npassed from an application to the OpenSSL function and the user has to have\na 'no_proxy' environment variable set. For the aforementioned reasons the\nissue was assessed as Low severity.\n\nThe vulnerable code was introduced in the following patch releases:\n3.0.16, 3.1.8, 3.2.4, 3.3.3, 3.4.0 and 3.5.0.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the HTTP client implementation is outside the OpenSSL FIPS module\nboundary.",
-          "Severity": "LOW",
-          "CweIDs": [
-            "CWE-125"
-          ],
-          "VendorSeverity": {
-            "redhat": 1,
-            "ubuntu": 1
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L",
-              "V3Score": 3.1
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9232",
-            "https://github.com/openssl/openssl/commit/2b4ec20e47959170422922eaff25346d362dcb35",
-            "https://github.com/openssl/openssl/commit/654dc11d23468a74fc8ea4672b702dd3feb7be4b",
-            "https://github.com/openssl/openssl/commit/7cf21a30513c9e43c4bc3836c237cf086e194af3",
-            "https://github.com/openssl/openssl/commit/89e790ac431125a4849992858490bed6b225eadf",
-            "https://github.com/openssl/openssl/commit/bbf38c034cdabd0a13330abcc4855c866f53d2e0",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9232",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9232"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.313Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9230",
-          "VendorIDs": [
-            "DSA-6015-1"
-          ],
-          "PkgID": "openssl-provider-legacy@3.5.1-1",
-          "PkgName": "openssl-provider-legacy",
-          "PkgIdentifier": {
-            "PURL": "pkg:deb/debian/openssl-provider-legacy@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "542851a7250a116e"
-          },
-          "InstalledVersion": "3.5.1-1",
-          "FixedVersion": "3.5.1-1+deb13u1",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9230",
-          "DataSource": {
-            "ID": "debian",
-            "Name": "Debian Security Tracker",
-            "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-          },
-          "Title": "openssl: Out-of-bounds read \u0026 write in RFC 3211 KEK Unwrap",
-          "Description": "Issue summary: An application trying to decrypt CMS messages encrypted using\npassword based encryption can trigger an out-of-bounds read and write.\n\nImpact summary: This out-of-bounds read may trigger a crash which leads to\nDenial of Service for an application. The out-of-bounds write can cause\na memory corruption which can have various consequences including\na Denial of Service or Execution of attacker-supplied code.\n\nAlthough the consequences of a successful exploit of this vulnerability\ncould be severe, the probability that the attacker would be able to\nperform it is low. Besides, password based (PWRI) encryption support in CMS\nmessages is very rarely used. For that reason the issue was assessed as\nModerate severity according to our Security Policy.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the CMS implementation is outside the OpenSSL FIPS module\nboundary.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-125",
-            "CWE-787"
-          ],
-          "VendorSeverity": {
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
-              "V3Score": 5.6
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9230",
-            "https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45",
-            "https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280",
-            "https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def",
-            "https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd",
-            "https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482",
-            "https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3",
-            "https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9230",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9230"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.05Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9231",
-          "PkgID": "openssl-provider-legacy@3.5.1-1",
-          "PkgName": "openssl-provider-legacy",
-          "PkgIdentifier": {
-            "PURL": "pkg:deb/debian/openssl-provider-legacy@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "542851a7250a116e"
-          },
-          "InstalledVersion": "3.5.1-1",
-          "FixedVersion": "3.5.1-1+deb13u1",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9231",
-          "DataSource": {
-            "ID": "debian",
-            "Name": "Debian Security Tracker",
-            "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-          },
-          "Title": "openssl: Timing side-channel in SM2 algorithm on 64 bit ARM",
-          "Description": "Issue summary: A timing side-channel which could potentially allow remote\nrecovery of the private key exists in the SM2 algorithm implementation on 64 bit\nARM platforms.\n\nImpact summary: A timing side-channel in SM2 signature computations on 64 bit\nARM platforms could allow recovering the private key by an attacker..\n\nWhile remote key recovery over a network was not attempted by the reporter,\ntiming measurements revealed a timing signal which may allow such an attack.\n\nOpenSSL does not directly support certificates with SM2 keys in TLS, and so\nthis CVE is not relevant in most TLS contexts.  However, given that it is\npossible to add support for such certificates via a custom provider, coupled\nwith the fact that in such a custom provider context the private key may be\nrecoverable via remote timing measurements, we consider this to be a Moderate\nseverity issue.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as SM2 is not an approved algorithm.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-385"
-          ],
-          "VendorSeverity": {
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V3Score": 5.9
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9231",
-            "https://github.com/openssl/openssl/commit/567f64386e43683888212226824b6a179885a0fe",
-            "https://github.com/openssl/openssl/commit/cba616c26ac8e7b37de5e77762e505ba5ca51698",
-            "https://github.com/openssl/openssl/commit/eed5adc9f969d77c94f213767acbb41ff923b6f4",
-            "https://github.com/openssl/openssl/commit/fc47a2ec078912b3e914fab5734535e76c4820c2",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9231",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9231"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.19Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9232",
-          "VendorIDs": [
-            "DSA-6015-1"
-          ],
-          "PkgID": "openssl-provider-legacy@3.5.1-1",
-          "PkgName": "openssl-provider-legacy",
-          "PkgIdentifier": {
-            "PURL": "pkg:deb/debian/openssl-provider-legacy@3.5.1-1?arch=arm64\u0026distro=debian-13.1",
-            "UID": "542851a7250a116e"
-          },
-          "InstalledVersion": "3.5.1-1",
-          "FixedVersion": "3.5.1-1+deb13u1",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:090e9c58f4748dd51573ae6f05678fa97237bbe946047a0433b0092ef6c4a704"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9232",
-          "DataSource": {
-            "ID": "debian",
-            "Name": "Debian Security Tracker",
-            "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-          },
-          "Title": "openssl: Out-of-bounds read in HTTP client no_proxy handling",
-          "Description": "Issue summary: An application using the OpenSSL HTTP client API functions may\ntrigger an out-of-bounds read if the 'no_proxy' environment variable is set and\nthe host portion of the authority component of the HTTP URL is an IPv6 address.\n\nImpact summary: An out-of-bounds read can trigger a crash which leads to\nDenial of Service for an application.\n\nThe OpenSSL HTTP client API functions can be used directly by applications\nbut they are also used by the OCSP client functions and CMP (Certificate\nManagement Protocol) client implementation in OpenSSL. However the URLs used\nby these implementations are unlikely to be controlled by an attacker.\n\nIn this vulnerable code the out of bounds read can only trigger a crash.\nFurthermore the vulnerability requires an attacker-controlled URL to be\npassed from an application to the OpenSSL function and the user has to have\na 'no_proxy' environment variable set. For the aforementioned reasons the\nissue was assessed as Low severity.\n\nThe vulnerable code was introduced in the following patch releases:\n3.0.16, 3.1.8, 3.2.4, 3.3.3, 3.4.0 and 3.5.0.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the HTTP client implementation is outside the OpenSSL FIPS module\nboundary.",
-          "Severity": "LOW",
-          "CweIDs": [
-            "CWE-125"
-          ],
-          "VendorSeverity": {
-            "redhat": 1,
-            "ubuntu": 1
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L",
-              "V3Score": 3.1
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9232",
-            "https://github.com/openssl/openssl/commit/2b4ec20e47959170422922eaff25346d362dcb35",
-            "https://github.com/openssl/openssl/commit/654dc11d23468a74fc8ea4672b702dd3feb7be4b",
-            "https://github.com/openssl/openssl/commit/7cf21a30513c9e43c4bc3836c237cf086e194af3",
-            "https://github.com/openssl/openssl/commit/89e790ac431125a4849992858490bed6b225eadf",
-            "https://github.com/openssl/openssl/commit/bbf38c034cdabd0a13330abcc4855c866f53d2e0",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9232",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9232"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.313Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
           "VulnerabilityID": "CVE-2007-5686",
           "PkgID": "passwd@1:4.17.4-2",
           "PkgName": "passwd",
@@ -10462,7 +9979,7 @@
             "BSD-3-Clause"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/flask-3.1.2.dist-info/METADATA"
         },
@@ -10477,7 +9994,7 @@
             "BSD-3-Clause"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/jinja2-3.1.6.dist-info/METADATA"
         },
@@ -10492,7 +10009,7 @@
             "BSD-3-Clause"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/markupsafe-3.0.3.dist-info/METADATA"
         },
@@ -10507,7 +10024,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pyyaml-6.0.3.dist-info/METADATA"
         },
@@ -10522,7 +10039,7 @@
             "BSD-3-Clause"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pygments-2.19.2.dist-info/METADATA"
         },
@@ -10537,7 +10054,7 @@
             "BSD-3-Clause"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/werkzeug-3.1.3.dist-info/METADATA"
         },
@@ -10552,7 +10069,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/black-25.9.0.dist-info/METADATA"
         },
@@ -10567,7 +10084,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/blinker-1.9.0.dist-info/METADATA"
         },
@@ -10582,7 +10099,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/cfgv-3.4.0.dist-info/METADATA"
         },
@@ -10597,7 +10114,7 @@
             "BSD-3-Clause"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/click-8.3.0.dist-info/METADATA"
         },
@@ -10612,7 +10129,7 @@
             "Python Software Foundation License"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/distlib-0.4.0.dist-info/METADATA"
         },
@@ -10627,7 +10144,7 @@
             "Unlicense"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/filelock-3.19.1.dist-info/METADATA"
         },
@@ -10642,7 +10159,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/flake8-7.3.0.dist-info/METADATA"
         },
@@ -10657,7 +10174,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/identify-2.6.15.dist-info/METADATA"
         },
@@ -10672,7 +10189,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/iniconfig-2.1.0.dist-info/METADATA"
         },
@@ -10687,7 +10204,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/isort-6.1.0.dist-info/METADATA"
         },
@@ -10702,7 +10219,7 @@
             "BSD-3-Clause"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/itsdangerous-2.2.0.dist-info/METADATA"
         },
@@ -10717,7 +10234,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/mccabe-0.7.0.dist-info/METADATA"
         },
@@ -10732,7 +10249,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/mypy_extensions-1.1.0.dist-info/METADATA"
         },
@@ -10747,7 +10264,7 @@
             "BSD-3-Clause"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/nodeenv-1.9.1.dist-info/METADATA"
         },
@@ -10763,7 +10280,7 @@
             "BSD-3-Clause"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/packaging-25.0.dist-info/METADATA"
         },
@@ -10778,7 +10295,7 @@
             "MPL-2.0"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pathspec-0.12.1.dist-info/METADATA"
         },
@@ -10793,7 +10310,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+            "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pip-25.0.1.dist-info/METADATA"
         },
@@ -10808,7 +10325,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/platformdirs-4.4.0.dist-info/METADATA"
         },
@@ -10823,7 +10340,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pluggy-1.6.0.dist-info/METADATA"
         },
@@ -10838,7 +10355,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pre_commit-4.3.0.dist-info/METADATA"
         },
@@ -10853,7 +10370,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pycodestyle-2.14.0.dist-info/METADATA"
         },
@@ -10868,7 +10385,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pyflakes-3.4.0.dist-info/METADATA"
         },
@@ -10883,7 +10400,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pytest-8.4.2.dist-info/METADATA"
         },
@@ -10898,7 +10415,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/pytokens-0.1.10.dist-info/METADATA"
         },
@@ -10913,7 +10430,7 @@
             "MIT"
           ],
           "Layer": {
-            "DiffID": "sha256:3cd984ba9fb1090b6b9bf6c40e76b5da2b9a05501585d0d877cb649ff25991b5"
+            "DiffID": "sha256:46af9f6cffe63bb902e627e8977d31a580beac29b0a32422321a1ceb05f8122f"
           },
           "FilePath": "usr/local/lib/python3.12/site-packages/virtualenv-20.34.0.dist-info/METADATA"
         }
@@ -10930,7 +10447,7 @@
           "InstalledVersion": "25.0.1",
           "Status": "affected",
           "Layer": {
-            "DiffID": "sha256:6eeb25b898f2ae3ac30596c7359fb5e5e27c11c42ae0a6e4fbfe43e1c67b0219"
+            "DiffID": "sha256:5b4a718b9bc4d500fedf6f09749d8d16a1ec2bd0cb0e74d5b60bf977afaf2b41"
           },
           "SeveritySource": "ghsa",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-8869",

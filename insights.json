@@ -1,49 +1,49 @@
 {
-  "generated": "2025-10-10T05:25:05.063184+00:00",
+  "generated": "2025-10-11T06:08:49.510409+00:00",
   "counts": {
     "critical": 0,
-    "high": 0,
-    "medium": 8,
+    "high": 8,
+    "medium": 28,
     "low": 54,
     "info": 0
   },
-  "score": 22,
+  "score": 0,
   "grade": "Poor",
   "by_tool": {
     "bandit": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
-      "low": 0,
+      "high": 1,
+      "medium": 3,
+      "low": 2,
       "info": 0
     },
     "semgrep": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
-      "low": 0,
+      "high": 7,
+      "medium": 19,
+      "low": 1,
       "info": 0
     },
     "pip_audit": {
       "critical": 0,
       "high": 0,
-      "medium": 0,
+      "medium": 4,
       "low": 0,
       "info": 0
     },
     "trivy": {
       "critical": 0,
       "high": 0,
-      "medium": 8,
-      "low": 54,
+      "medium": 2,
+      "low": 51,
       "info": 0
     }
   },
   "categories": {
-    "Secrets": 11,
-    "Misconfigurations": 38,
-    "Dependencies": 24,
-    "Access Control": 15
+    "Secrets": 9,
+    "Misconfigurations": 28,
+    "Dependencies": 42,
+    "Access Control": 7
   },
   "history": [
     {
@@ -61,6 +61,10 @@
     {
       "ts": "2025-10-10T05:25:05.063432+00:00",
       "score": 22
+    },
+    {
+      "ts": "2025-10-11T06:08:49.510685+00:00",
+      "score": 0
     }
   ]
 }
