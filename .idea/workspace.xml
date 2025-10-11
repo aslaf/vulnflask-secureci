@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f4ebd57-00a4-41a3-b116-578a8635003e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/analytics.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/analytics.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/observability.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/observability.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/insights.json" beforeDir="false" afterPath="$PROJECT_DIR$/insights.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

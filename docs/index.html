@@ -103,17 +103,63 @@
 
   <!-- Summary table -->
   <table>
-    <thead>
-      <tr><th>Tool</th><th>Status</th><th>Findings</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Bandit (SAST)</td><td>N/A</td><td>0</td></tr>
-      <tr><td>Semgrep (Code)</td><td>N/A</td><td>0</td></tr>
-      <tr><td>pip-audit (SCA)</td><td>N/A</td><td>0</td></tr>
-      <tr><td>Trivy/Container</td><td>Present</td><td>62</td></tr>
-      <tr><td>OWASP ZAP (DAST)</td><td>N/A</td><td>0</td></tr>
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Status</th>
+      <th>Findings</th>
+    </tr>
+  </thead>
+  <tbody id="toolsBody">
+    <tr><td colspan="3" class="muted">Loading…</td></tr>
+  </tbody>
+</table>
+
+<script>
+function sumCounts(c) {
+  return (c.critical || 0) + (c.high || 0) + (c.medium || 0) + (c.low || 0) + (c.info || 0);
+}
+
+function renderToolsTable(insights) {
+  const body = document.getElementById('toolsBody');
+  if (!insights || !insights.by_tool) {
+    body.innerHTML = '<tr><td colspan="3" class="muted">No insights available</td></tr>';
+    return;
+  }
+
+  const toolRows = [
+    { key: 'bandit', label: 'Bandit (SAST)', file: 'bandit-report.json' },
+    { key: 'semgrep', label: 'Semgrep (Code)', file: 'semgrep-report.json' },
+    { key: 'pip_audit', label: 'pip-audit (SCA)', file: 'pip-audit-report.json' },
+    { key: 'trivy', label: 'Trivy/Container', file: 'trivy-report.json' },
+    { key: 'zap', label: 'OWASP ZAP (DAST)', file: 'zap-report.html' }
+  ];
+
+  const rowsHtml = toolRows.map(t => {
+    const counts = insights.by_tool[t.key] || { critical: 0, high: 0, medium: 0, low: 0, info: 0 };
+    const total = sumCounts(counts);
+    const status = total > 0 ? 'Present' : 'N/A';
+    const findingsCell = total > 0
+      ? `<a href="./${t.file}" target="_blank">${total}</a>`
+      : `${total}`;
+    return `
+      <tr>
+        <td>${t.label}</td>
+        <td>${status}</td>
+        <td>${findingsCell}</td>
+      </tr>
+    `;
+  }).join('');
+
+  body.innerHTML = rowsHtml;
+}
+
+// Make sure this runs after insights.json is loaded
+// If you already have a function like initDashboard(insights), add this there:
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof insights !== 'undefined') renderToolsTable(insights);
+});
+</script>
 
   <div class="footer">
     Missing = N/A (scan not run). This page is updated by CI (Day 12–17).
@@ -233,6 +279,7 @@ function drawRisk(categories) {
   drawTrend(insights.history || []);
   drawHistory(insights.history || []);
   drawRisk(insights.categories || {});
+  renderToolsTable(insights);
 })();
 </script>
 </body>
