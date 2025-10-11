@@ -24,11 +24,18 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Copy reports to docs/
+        run: |
+          mkdir -p docs
+          cp bandit-report.json semgrep-report.json pip-audit-report.json trivy-report.json security-report.md docs/ || true
+
       - name: Generate Security Insights
         run: |
           echo "🔍 Running aggregate_insights.py"
           python3 scripts/aggregate_insights.py
-          echo "✅ insights.json created:"
+          mkdir -p docs
+          cp insights.json docs/insights.json
+          echo "✅ insights.json created and copied to docs/:"
           cat insights.json || true
 
       - name: Upload artifact
@@ -37,11 +44,6 @@ jobs:
           name: security-insights
           path: insights.json
           if-no-files-found: error
-
-      - name: Copy reports to docs/
-        run: |
-          mkdir -p docs
-          cp bandit-report.json semgrep-report.json pip-audit-report.json trivy-report.json security-report.md docs/ || true
 
       - name: Commit insights.json back to repo
         run: |
