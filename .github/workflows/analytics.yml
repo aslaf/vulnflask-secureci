@@ -38,6 +38,24 @@ jobs:
           path: insights.json
           if-no-files-found: error
 
+      - name: Copy reports to docs/
+        run: |
+          mkdir -p docs
+          cp bandit-report.json semgrep-report.json pip-audit-report.json trivy-report.json security-report.md docs/ || true
+          echo "📄 Copied reports to docs/ directory"
+
+      - name: Commit insights.json back to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add insights.json docs/
+          if ! git diff --quiet HEAD; then
+            git commit -m "chore: update security reports and insights [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
+
       - name: Commit insights.json back to repo
         run: |
           git config user.name "github-actions[bot]"
