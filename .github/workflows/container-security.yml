@@ -27,6 +27,11 @@ jobs:
       - name: Generate SBOM
         run: syft . -o json > syft-sbom.json
 
+      - name: Copy SBOM to docs/
+        run: |
+          mkdir -p docs
+          cp syft-sbom.json docs/
+
       - name: Trivy - Scan image for vulnerabilities
         uses: aquasecurity/trivy-action@master
         with:
