@@ -53,7 +53,7 @@ report_lines += [
     "2. Auto-parse JSON from scan tools for real-time updates.",
     "3. Notify via Slack or Teams when high findings appear.",
     "",
-    f"_Report generated automatically by SecureCI governance pipeline._",
+    "_Report generated automatically by SecureCI governance pipeline._",
 ]
 
 # -------------------------------------------------------------------
@@ -66,4 +66,4 @@ with open(output_file, "w") as f:
 # -------------------------------------------------------------------
 # 4️Confirmation log
 # -------------------------------------------------------------------
-print(f"[INFO] Security report generated successfully → {os.path.abspath(output_file)}")
+print("[INFO] Security report generated successfully → " + os.path.abspath(output_file))
