@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from app.app import app
+from src.app import app
 
 
 @pytest.fixture

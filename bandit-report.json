@@ -15,7 +15,7 @@
       "nosec": 0,
       "skipped_tests": 0
     },
-    "app/__init__.py": {
+    "src/__init__.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
       "CONFIDENCE.MEDIUM": 0,
@@ -28,7 +28,7 @@
       "nosec": 0,
       "skipped_tests": 0
     },
-    "app/app.py": {
+    "src/app.py": {
       "CONFIDENCE.HIGH": 1,
       "CONFIDENCE.LOW": 1,
       "CONFIDENCE.MEDIUM": 4,
@@ -47,7 +47,7 @@
       "code": "10 app = Flask(__name__)\n11 app.secret_key = \"dev-secret\"  # weak secret for demo\n12 DB_PATH = os.path.join(os.path.dirname(__file__), \"data.db\")\n",
       "col_offset": 17,
       "end_col_offset": 29,
-      "filename": "app/app.py",
+      "filename": "src/app.py",
       "issue_confidence": "MEDIUM",
       "issue_cwe": {
         "id": 259,
@@ -67,7 +67,7 @@
       "code": "71         db.commit()\n72     except Exception:\n73         pass\n74     db.close()\n",
       "col_offset": 4,
       "end_col_offset": 12,
-      "filename": "app/app.py",
+      "filename": "src/app.py",
       "issue_confidence": "HIGH",
       "issue_cwe": {
         "id": 703,
@@ -88,7 +88,7 @@
       "code": "99         query = (\n100             f\"SELECT * FROM users WHERE username='{username}' AND password='{password}'\"\n101         )\n",
       "col_offset": 14,
       "end_col_offset": 50,
-      "filename": "app/app.py",
+      "filename": "src/app.py",
       "issue_confidence": "LOW",
       "issue_cwe": {
         "id": 89,
@@ -108,7 +108,7 @@
       "code": "115     # SQLi via string interpolation\n116     rows = db.execute(f\"SELECT * FROM products WHERE name LIKE '%{q}%'\").fetchall()\n117     return render_template(\"search.html\", products=rows, q=q)\n",
       "col_offset": 24,
       "end_col_offset": 65,
-      "filename": "app/app.py",
+      "filename": "src/app.py",
       "issue_confidence": "MEDIUM",
       "issue_cwe": {
         "id": 89,
@@ -128,7 +128,7 @@
       "code": "131         init_db()\n132     app.run(host=\"0.0.0.0\", port=5000, debug=True)\n",
       "col_offset": 4,
       "end_col_offset": 50,
-      "filename": "app/app.py",
+      "filename": "src/app.py",
       "issue_confidence": "MEDIUM",
       "issue_cwe": {
         "id": 94,
@@ -148,7 +148,7 @@
       "code": "131         init_db()\n132     app.run(host=\"0.0.0.0\", port=5000, debug=True)\n",
       "col_offset": 17,
       "end_col_offset": 26,
-      "filename": "app/app.py",
+      "filename": "src/app.py",
       "issue_confidence": "MEDIUM",
       "issue_cwe": {
         "id": 605,

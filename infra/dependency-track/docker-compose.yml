@@ -135,7 +135,7 @@ services:
       # OIDC_FLOW: ""
       # OIDC_LOGIN_BUTTON_TEXT: ""
       # volumes:
-      # - "/host/path/to/config.json:/app/static/config.json"
+      # - "/host/path/to/config.json:/src/static/config.json"
     ports:
       - "8090:8080"
     restart: unless-stopped

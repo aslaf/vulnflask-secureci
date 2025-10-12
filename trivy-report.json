@@ -100,7 +100,7 @@
         },
         {
           "created": "2025-10-11T06:08:14Z",
-          "created_by": "COPY app/ app/ # buildkit",
+          "created_by": "COPY src/ src/ # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
@@ -111,7 +111,7 @@
         },
         {
           "created": "2025-10-11T06:08:14Z",
-          "created_by": "CMD [\"python\" \"app/app.py\"]",
+          "created_by": "CMD [\"python\" \"src/app.py\"]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         }
@@ -133,7 +133,7 @@
       "config": {
         "Cmd": [
           "python",
-          "app/app.py"
+          "src/app.py"
         ],
         "Env": [
           "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",

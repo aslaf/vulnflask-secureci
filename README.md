@@ -69,14 +69,14 @@ It integrates multiple security layers — from threat modeling to runtime enfor
 ├── runtime-policies.yml
 └── deploy.yml
 
-k8s/
+infra/kubernetes/
 ├── deployment.yml
 ├── service.yml
 └── policies/
     ├── constraint-template.yaml
     └── deny-privileged.yaml
 
-falco/
+ops/runtime/
 └── rules.yaml
 </pre>
 
@@ -95,22 +95,22 @@ falco/
 ├── runtime-policies.yml         → Monitors and enforces runtime behavior (Falco + OPA Gatekeeper).
 └── deploy.yml                   → Builds and deploys Docker image to local K3d or cloud environment.
 
-k8s/
+infra/kubernetes/
 ├── deployment.yml               → Defines Flask app deployment (replica, container image, ports).
 ├── service.yml                  → Exposes the app internally via LoadBalancer or NodePort.
 └── policies/
     ├── constraint-template.yaml → Gatekeeper ConstraintTemplate for privileged container policy.
     └── deny-privileged.yaml     → OPA constraint denying privileged pods.
 
-falco/
+ops/runtime/
 └── rules.yaml                   → Custom Falco runtime detection rules (shell access, execs, etc).
 
-app/
+src/
 ├── app.py                       → Vulnerable Flask web app (SQLi, XSS, access control flaws).
 ├── templates/                   → HTML templates (intentionally unsafe rendering).
 └── data.db                      → Auto-generated SQLite database for demo purposes.
 
-iac/
+infra/terraform/
 └── main.tf                      → Terraform IaC provisioning sample (S3 + VPC + Subnets).
 
 tests/
