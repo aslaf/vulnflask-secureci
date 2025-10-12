@@ -32,7 +32,7 @@ jobs:
       - name: Generate Security Insights
         run: |
           echo "🔍 Running aggregate_insights.py"
-          python3 scripts/aggregate_insights.py
+          python3 tools/ci/aggregate_insights.py
           mkdir -p docs
           cp insights.json docs/insights.json
           echo "✅ insights.json created and copied to docs/:"

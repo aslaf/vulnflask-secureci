@@ -4,54 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f4ebd57-00a4-41a3-b116-578a8635003e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/analytics.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/security-insights.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/ci-build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build-lint-test.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/code-security.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/static-code-analysis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/container-security.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/container-security-scan.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/dashboard.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/security-dashboard.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/dast-scan.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/dast-owasp-zap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/secure-deployment.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/feedback.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/pull-request-feedback.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/iac-scan.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/infrastructure-security-scan.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/observability.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/observability-alerts.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/policy-validate.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/policy-compliance.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/reporting.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/weekly-security-report.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/runtime-monitor.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/runtime-monitoring.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/runtime-policies.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/runtime-policy.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/threat-validate.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/threat-model-validation.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/triage.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/vulnerability-triage.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-triage/triage.py" beforeDir="false" afterPath="$PROJECT_DIR$/ops/triage/triage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bandit-report.json" beforeDir="false" afterPath="$PROJECT_DIR$/bandit-report.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependency-track/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/infra/dependency-track/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bandit-report.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/bandit-report.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/semgrep-report.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/semgrep-report.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/trivy-report.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/trivy-report.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/falco/rules.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ops/runtime/rules.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iac/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/infra/terraform/main.tf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/deployment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/infra/kubernetes/deployment.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/policies/constraint-template.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infra/kubernetes/policies/constraint-template.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/policies/deny-privileged.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infra/kubernetes/policies/deny-privileged.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/policies/disallow-latest.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infra/kubernetes/policies/disallow-latest.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/policies/require-limits.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infra/kubernetes/policies/require-limits.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/infra/kubernetes/service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/observability/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ops/observability/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/aggregate_insights.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/ci/aggregate_insights.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/build_dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/ci/build_dashboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/generate-report.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/ci/generate-report.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/notify_slack.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/ci/notify_slack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/triage_findings.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/ci/triage_findings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/semgrep-report.json" beforeDir="false" afterPath="$PROJECT_DIR$/semgrep-report.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_basic.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_basic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trivy-report.json" beforeDir="false" afterPath="$PROJECT_DIR$/trivy-report.json" afterDir="false" />
-    </list>
+    <list default="true" id="3f4ebd57-00a4-41a3-b116-578a8635003e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,14 +25,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "repo-normalization",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;repo-normalization&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
