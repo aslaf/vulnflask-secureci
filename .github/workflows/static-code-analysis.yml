@@ -44,10 +44,12 @@ jobs:
         run: git fetch --unshallow || true
 
       # --- Secrets: Gitleaks ---
-      - name: Run Gitleaks (Secrets)
+      - name: Run Gitleaks (Secret Scan)
         uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: --redact --report-format sarif --report-path results.sarif
+          config-path: .gitleaks.toml
 
       # --- Publish reports for PR review ---
       - name: Upload artifacts

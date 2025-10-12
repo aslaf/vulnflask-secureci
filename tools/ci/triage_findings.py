@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """
-Day 13 - Vulnerability Aggregation & Triage
-Reads scan artifacts (if present) and produces:
-  - triage-summary.md   : human-friendly summary table
-  - triage-summary.json : machine-friendly counts
-  - triage-high.md      : brief listing of top-risk items (for issue body)
-Non-blocking and resilient to missing files.
+Vulnerability Aggregation & Triage
+-----------------------------------
+Aggregates results from multiple scanners and produces:
+
+  - triage-summary.md   : human-readable summary table
+  - triage-summary.json : machine-readable severity counts
+  - triage-high.md      : list of high/critical findings (for GitHub Issues)
+
+This script is resilient — it will always create output files,
+even if no scan results are available.
 """
 
 from __future__ import annotations
@@ -16,14 +20,17 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 
+# ---------------------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------------------
 ROOT = Path(__file__).resolve().parents[1]
 
-# Input artifact paths (created by your earlier workflows)
+# Input artifact paths (these may or may not exist)
 P_BANDIT = ROOT / "bandit-report.json"
 P_SEMGREP = ROOT / "semgrep-report.json"
 P_PIP = ROOT / "pip-audit-report.json"
 P_TRIVY = ROOT / "trivy-report.json"
-P_ZAP_HTML = ROOT / "report_html.html"  # optional
+P_ZAP_HTML = ROOT / "report_html.html"
 
 # Outputs
 OUT_MD = ROOT / "triage-summary.md"
@@ -31,10 +38,14 @@ OUT_JSON = ROOT / "triage-summary.json"
 OUT_HIGHS = ROOT / "triage-high.md"
 
 SEVERITY_ORDER = ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"]
-ToolSummary = Dict[str, Dict[str, int]]  # e.g., {'Bandit': {'HIGH': 2, 'LOW': 1}, ...}
+ToolSummary = Dict[str, Dict[str, int]]
 
 
+# ---------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------
 def load_json(path: Path) -> Optional[dict]:
+    """Load a JSON file if present."""
     if not path.exists():
         return None
     try:
@@ -44,25 +55,22 @@ def load_json(path: Path) -> Optional[dict]:
 
 
 def norm_sev(raw: str) -> str:
+    """Normalize severity names across tools."""
     if not raw:
         return "MEDIUM"
     r = raw.strip().upper()
     if r in SEVERITY_ORDER:
         return r
-    # common mappings
-    if r in ("ERROR",):
-        return "CRITICAL"
-    if r in ("WARNING", "WARN"):
-        return "MEDIUM"
-    if r in ("INFO", "INFORMATIONAL"):
-        return "INFO"
-    if r in ("BLOCKER",):
-        return "CRITICAL"
-    if r in ("MAJOR",):
-        return "HIGH"
-    if r in ("MINOR",):
-        return "LOW"
-    return "MEDIUM"
+    return {
+        "ERROR": "CRITICAL",
+        "BLOCKER": "CRITICAL",
+        "MAJOR": "HIGH",
+        "WARNING": "MEDIUM",
+        "WARN": "MEDIUM",
+        "MINOR": "LOW",
+        "INFO": "INFO",
+        "INFORMATIONAL": "INFO",
+    }.get(r, "MEDIUM")
 
 
 def add_count(summary: ToolSummary, tool: str, sev: str):
@@ -70,6 +78,9 @@ def add_count(summary: ToolSummary, tool: str, sev: str):
     summary[tool][sev] = summary[tool].get(sev, 0) + 1
 
 
+# ---------------------------------------------------------------------
+# Parsers
+# ---------------------------------------------------------------------
 def summarize_bandit(path: Path, summary: ToolSummary, top: List[str]):
     data = load_json(path)
     if not data:
@@ -91,18 +102,16 @@ def summarize_semgrep(path: Path, summary: ToolSummary, top: List[str]):
         sev = norm_sev(item.get("extra", {}).get("severity"))
         add_count(summary, "Semgrep", sev)
         if sev in ("CRITICAL", "HIGH"):
-            rule = item.get("check_id", "")
-            msg = item.get("extra", {}).get("message", "")
-            top.append(f"[Semgrep] {rule}: {msg}")
+            top.append(
+                f"[Semgrep] {item.get('check_id', '')}: {item.get('extra', {}).get('message', '')}"
+            )
 
 
 def summarize_pip_audit(path: Path, summary: ToolSummary, top: List[str]):
     data = load_json(path)
     if not data:
         return
-    findings = 0
 
-    # pip-audit JSON can be list or dict; handle both
     def handle_vuln(v):
         sev = norm_sev(v.get("severity") or v.get("severity_name", "MEDIUM"))
         add_count(summary, "pip-audit", sev)
@@ -114,14 +123,11 @@ def summarize_pip_audit(path: Path, summary: ToolSummary, top: List[str]):
     if isinstance(data, dict) and "dependencies" in data:
         for dep in data["dependencies"]:
             for v in dep.get("vulns") or dep.get("vulnerabilities") or []:
-                findings += 1
                 handle_vuln(v)
     elif isinstance(data, list):
         for dep in data:
             for v in dep.get("vulns", []):
-                findings += 1
                 handle_vuln(v)
-    # If no explicit vulnerabilities with severities were found, still reflect count 0 gracefully.
 
 
 def summarize_trivy(path: Path, summary: ToolSummary, top: List[str]):
@@ -133,9 +139,9 @@ def summarize_trivy(path: Path, summary: ToolSummary, top: List[str]):
             sev = norm_sev(v.get("Severity"))
             add_count(summary, "Trivy", sev)
             if sev in ("CRITICAL", "HIGH"):
-                vid = v.get("VulnerabilityID", "")
-                pkg = v.get("PkgName", "")
-                top.append(f"[Trivy] {vid} in {pkg}")
+                top.append(
+                    f"[Trivy] {v.get('VulnerabilityID', '')} in {v.get('PkgName', '')}"
+                )
 
 
 def summarize_zap_html(path: Path, summary: ToolSummary, top: List[str]):
@@ -143,23 +149,22 @@ def summarize_zap_html(path: Path, summary: ToolSummary, top: List[str]):
         return
     try:
         content = path.read_text(encoding="utf-8", errors="ignore").upper()
-        # Very rough heuristic via keywords; real parsing would use HTML parser
-        crit = len(
-            re.findall(r"RISK LEVEL:\s*HIGH", content)
-        )  # ZAP "High" ~ map to HIGH
+        crit = len(re.findall(r"RISK LEVEL:\s*HIGH", content))
         med = len(re.findall(r"RISK LEVEL:\s*MEDIUM", content))
         low = len(re.findall(r"RISK LEVEL:\s*LOW", content))
-        if crit or med or low:
-            if crit:
-                add_count(summary, "ZAP", "HIGH")  # map High→HIGH for simplicity
-            if med:
-                add_count(summary, "ZAP", "MEDIUM")
-            if low:
-                add_count(summary, "ZAP", "LOW")
+        if crit:
+            add_count(summary, "ZAP", "HIGH")
+        if med:
+            add_count(summary, "ZAP", "MEDIUM")
+        if low:
+            add_count(summary, "ZAP", "LOW")
     except Exception:
         pass
 
 
+# ---------------------------------------------------------------------
+# Output
+# ---------------------------------------------------------------------
 def totals(summary: ToolSummary) -> Dict[str, int]:
     agg = {k: 0 for k in SEVERITY_ORDER}
     for tool, counts in summary.items():
@@ -171,7 +176,7 @@ def totals(summary: ToolSummary) -> Dict[str, int]:
 def write_outputs(summary: ToolSummary, top: List[str]):
     ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 
-    # Markdown table
+    # Markdown summary
     lines = [
         "# Security Triage Summary",
         f"**Generated:** {ts}",
@@ -188,39 +193,23 @@ def write_outputs(summary: ToolSummary, top: List[str]):
     lines += [
         "",
         "## Totals",
-        f"- CRITICAL: **{t['CRITICAL']}**",
-        f"- HIGH: **{t['HIGH']}**",
-        f"- MEDIUM: **{t['MEDIUM']}**",
-        f"- LOW: **{t['LOW']}**",
-        f"- INFO: **{t['INFO']}**",
+        *(f"- {sev}: **{t[sev]}**" for sev in SEVERITY_ORDER),
         "",
         "## High-Risk Highlights",
     ]
-    if top:
-        for item in top[:20]:
-            lines.append(f"- {item}")
-    else:
-        lines.append("- No HIGH/CRITICAL items found.")
+    lines += [f"- {item}" for item in top[:20]] or ["- No HIGH/CRITICAL items found."]
 
     OUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    # JSON totals for the workflow to read with jq
     OUT_JSON.write_text(
         json.dumps(
-            {
-                "critical": t["CRITICAL"],
-                "high": t["HIGH"],
-                "medium": t["MEDIUM"],
-                "low": t["LOW"],
-                "info": t["INFO"],
-            },
+            {k.lower(): v for k, v in t.items()},
             indent=2,
         )
         + "\n",
         encoding="utf-8",
     )
 
-    # Highs file (used as issue body if any highs/criticals)
     if top:
         OUT_HIGHS.write_text(
             "# High/Critical Findings\n\n"
@@ -229,7 +218,6 @@ def write_outputs(summary: ToolSummary, top: List[str]):
             encoding="utf-8",
         )
     else:
-        # Ensure file exists (some actions expect a path)
         OUT_HIGHS.write_text("# High/Critical Findings\n\n- None\n", encoding="utf-8")
 
     print(f"[OK] Wrote: {OUT_MD}")
@@ -237,6 +225,9 @@ def write_outputs(summary: ToolSummary, top: List[str]):
     print(f"[OK] Wrote: {OUT_HIGHS}")
 
 
+# ---------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------
 def main() -> None:
     summary: ToolSummary = {}
     top: List[str] = []
@@ -247,11 +238,18 @@ def main() -> None:
     summarize_trivy(P_TRIVY, summary, top)
     summarize_zap_html(P_ZAP_HTML, summary, top)
 
-    # Ensure tools with no findings still show as zero
     for tool in ["Bandit", "Semgrep", "pip-audit", "Trivy", "ZAP"]:
         summary.setdefault(tool, {})
 
-    write_outputs(summary, top)
+    try:
+        write_outputs(summary, top)
+    except Exception as e:
+        print(f"[ERROR] Could not write triage outputs: {e}")
+        for f in [OUT_MD, OUT_JSON, OUT_HIGHS]:
+            f.write_text(
+                "# Placeholder\nNo findings or data to summarize.\n", encoding="utf-8"
+            )
+        print("[WARN] Created placeholder triage summary files.")
 
 
 if __name__ == "__main__":
