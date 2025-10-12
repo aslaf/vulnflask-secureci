@@ -1,4 +1,4 @@
-name: Observability & Slack Notifications
+name: Security Observability & Slack Alerts
 
 on:
   workflow_dispatch:

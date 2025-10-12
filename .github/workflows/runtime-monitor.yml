@@ -1,4 +1,4 @@
-name: Runtime Monitoring (IAST / Falco)
+name: Runtime Security Monitoring (Falco / IAST)
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Deploy (Container + Security CI/CD)
+name: Secure Deployment Pipeline (Container + IaC)
 
 on:
   push:

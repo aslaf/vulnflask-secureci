@@ -1,4 +1,4 @@
-name: OWASP ZAP Live DAST Workflow (non-blocking)
+name: OWASP ZAP Live DAST Workflow
 
 on:
   workflow_dispatch: {}   # Manual trigger from the Actions tab

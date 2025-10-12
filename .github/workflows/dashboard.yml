@@ -1,4 +1,4 @@
-name: Security Dashboard & Weekly Issue
+name: Security Dashboard Generation
 
 on:
   workflow_dispatch:

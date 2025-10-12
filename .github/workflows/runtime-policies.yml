@@ -1,4 +1,4 @@
-name: Runtime Policies (OPA + Falco)
+name: Runtime Policy Enforcement (OPA + Falco)
 
 on:
   workflow_dispatch:

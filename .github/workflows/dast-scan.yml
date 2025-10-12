@@ -1,4 +1,4 @@
-name: DAST Scan (OWASP ZAP)
+name: Dynamic Application Security Testing (DAST - ZAP)
 
 on:
   push:

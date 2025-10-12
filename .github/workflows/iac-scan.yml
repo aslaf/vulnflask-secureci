@@ -1,4 +1,4 @@
-name: IaC Security Scan (Terraform + Checkov)
+name: Infrastructure-as-Code Security (Terraform + Checkov)
 
 on:
   push:

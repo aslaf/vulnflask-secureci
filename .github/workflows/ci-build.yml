@@ -1,4 +1,4 @@
-name: CI Build & Test
+name: Build, Lint & Unit Test
 on:
   push:
     branches: [ main, develop ]

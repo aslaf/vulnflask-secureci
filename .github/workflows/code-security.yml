@@ -1,4 +1,4 @@
-name: Code Security (SAST + SCA + Secrets)
+name: Static Application Security Testing (SAST + SCA + Secrets)
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Container Security (SBOM + Vulnerability Scan)
+name: Container Image & SBOM Security Scan
 
 on:
   push:

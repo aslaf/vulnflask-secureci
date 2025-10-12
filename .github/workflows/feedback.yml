@@ -1,4 +1,4 @@
-name: PR Security Feedback
+name: Pull Request Security Feedback
 
 on:
   pull_request:
