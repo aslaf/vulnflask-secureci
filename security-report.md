@@ -1,10 +1,10 @@
 # VulnFlask-SecureCI — Security Summary Report
 
-**Generated:** 2025-10-10 00:33:39 UTC
+**Generated:** 2025-11-10 07:17:08 UTC
 
 ## Scan Summary
 | Tool | Status | Findings |
-|------|--------|----------|
+|------|---------|-----------|
 | Bandit (SAST) | N/A | 0 |
 | Semgrep (Code) | N/A | 0 |
 | pip-audit (SCA) | N/A | 0 |
