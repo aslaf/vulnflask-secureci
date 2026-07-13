@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-06T12:54:11.612271+00:00",
+  "generated": "2026-07-13T11:13:27.029040+00:00",
   "counts": {
     "critical": 0,
     "high": 0,
@@ -40,16 +40,12 @@
     }
   },
   "categories": {
-    "Secrets": 16,
-    "Misconfigurations": 19,
-    "Dependencies": 43,
-    "Access Control": 12
+    "Secrets": 8,
+    "Misconfigurations": 22,
+    "Dependencies": 52,
+    "Access Control": 21
   },
   "history": [
-    {
-      "ts": "2026-06-08T12:35:15.461771+00:00",
-      "score": 22
-    },
     {
       "ts": "2026-06-08T13:12:02.986223+00:00",
       "score": 22
@@ -84,6 +80,10 @@
     },
     {
       "ts": "2026-07-06T12:54:11.612288+00:00",
+      "score": 22
+    },
+    {
+      "ts": "2026-07-13T11:13:27.029066+00:00",
       "score": 22
     }
   ]
